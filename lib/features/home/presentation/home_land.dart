@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:some_ride/features/favorites/presentation/fav.dart';
+import 'package:some_ride/features/home/controllers/home_controller.dart';
+import 'package:some_ride/features/home/presentation/toggle_service.dart';
+import 'package:some_ride/features/offer/presentation/offer.dart';
+import 'package:some_ride/features/profile/presentation/profile.dart';
+import 'package:some_ride/features/wallet/presentation/wallet.dart';
+
+class HomeLanding extends StatelessWidget {
+  HomeLanding({super.key});
+
+  final HomeController controller = Get.find<HomeController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Obx(() {
+        switch (controller.currentPage.value) {
+          case 0:
+            return TogglePages();
+          case 1:
+            return const Favorite();
+          case 2:
+            return const Wallet();
+          case 3:
+            return const Offer();
+          case 4:
+            return const Profile();
+          default:
+            return const SizedBox.shrink();
+        }
+      }),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: controller.currentPage.value,
+          onTap: (index) {
+            controller.changePage(index);
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorites',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet),
+              label: 'Wallet',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_offer),
+              label: 'Offers',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          backgroundColor: Theme.of(context).primaryColor,
+          selectedItemColor: Theme.of(context).textTheme.bodyMedium!.color,
+          unselectedItemColor: Colors.grey.withOpacity(0.6),
+        ),
+      ),
+    );
+  }
+}

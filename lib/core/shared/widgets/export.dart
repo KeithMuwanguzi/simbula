@@ -1,0 +1,10 @@
+export 'package:some_ride/core/shared/widgets/custombutton.dart';
+export 'package:some_ride/core/shared/widgets/custom_password.dart';
+export 'package:some_ride/core/shared/widgets/light_button.dart';
+export 'package:some_ride/core/shared/widgets/textformfield.dart';
+export 'package:some_ride/core/shared/widgets/textwidget.dart';
+export 'package:some_ride/core/shared/widgets/dealer_widget.dart';
+export 'package:some_ride/core/shared/widgets/car_widget.dart';
+export 'package:some_ride/core/shared/widgets/car_name_widget.dart';
+export 'package:some_ride/core/shared/widgets/car_image.dart';
+export 'package:some_ride/core/shared/widgets/app_bar_widget.dart';
