@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764702856261",
+    "project_id": "simbula-273cb",
+    "storage_bucket": "simbula-273cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764702856261:android:979b4d55e054f04064ff2c",
+        "android_client_info": {
+          "package_name": "com.keith.finalyear.some_ride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlj8AmrR2YziFGYwlbIzexrKhcFbXwFpU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
