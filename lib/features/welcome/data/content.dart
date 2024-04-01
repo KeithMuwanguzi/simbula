@@ -12,7 +12,7 @@ List<OnBoardingContent> pages = [
       title: "Clean and Convenient",
       imageUrl: 'assets/animations/car3.json',
       text:
-          "Tired of dirty and overloaded taxis, Get your Clean and comfortable ride with SomeRideUg"),
+          "Tired of dirty and overloaded taxis, Get your Clean and comfortable ride with Simbula"),
   OnBoardingContent(
       title: "Elevate your status",
       imageUrl: 'assets/animations/car4.json',
