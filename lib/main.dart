@@ -1,10 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:some_ride/util/bindings/internetbinding.dart';
 import 'package:some_ride/util/bindings/pages.dart';
 import 'package:some_ride/util/theme/themedata.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
   InternetBinding.init();
 }

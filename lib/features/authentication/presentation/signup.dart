@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:some_ride/features/authentication/controller/signup_controller.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/features/authentication/controller/signup_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
