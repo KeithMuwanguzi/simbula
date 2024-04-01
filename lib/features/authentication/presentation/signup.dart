@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/authentication/controller/signup_controller.dart';
+import 'package:some_ride/features/authentication/presentation/export.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-        child: Column(
+        child: ListView(
           children: [
             Expanded(
               child: Column(
@@ -76,7 +77,9 @@ class _SignUpPageState extends State<SignUpPage> {
             CustomButton(
               buttonText: "Sign Up",
               buttonFunction: () {
-                Get.toNamed('/newpassword');
+                Get.to(
+                  () => NewPassword(emailAddress: signUpController.email.text),
+                );
               },
             ),
             const SizedBox(height: 10),

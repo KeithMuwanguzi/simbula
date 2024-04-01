@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:some_ride/features/authentication/services/firebase_services.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -27,7 +27,7 @@ class Profile extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Get.offAllNamed('/welcome');
+                              AuthController.instance.signOut();
                             },
                             child: const Text("Yes"),
                           ),

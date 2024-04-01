@@ -6,11 +6,12 @@ import 'package:some_ride/core/shared/widgets/custom_password.dart';
 import 'package:some_ride/core/shared/widgets/custombutton.dart';
 
 class NewPassword extends StatelessWidget {
-  const NewPassword({super.key});
+  final String emailAddress;
+  const NewPassword({super.key, required this.emailAddress});
 
   @override
   Widget build(BuildContext context) {
-    final NewPasswordController controller = Get.find<NewPasswordController>();
+    final NewPasswordController controller = Get.put(NewPasswordController());
     return Scaffold(
         appBar: AppBar(),
         body: Padding(
@@ -36,22 +37,31 @@ class NewPassword extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Obx(
-                      () => CustomPasswordFormField(
-                        userFunction: () => controller.changeVisibility(),
-                        controller: controller.password,
-                        hintText: "Enter your password",
-                        isVisible: controller.isVisible.value,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Obx(
-                      () => CustomPasswordFormField(
-                        userFunction: () =>
-                            controller.changeConfirmVisibility(),
-                        hintText: "Confirm your password",
-                        controller: controller.confirmPassword,
-                        isVisible: controller.isConfirmVisible.value,
+                    Form(
+                      key: controller.formKey,
+                      child: Column(
+                        children: [
+                          Obx(
+                            () => CustomPasswordFormField(
+                              userFunction: () => controller.changeVisibility(),
+                              controller: controller.password,
+                              hintText: "Enter your password",
+                              isVisible: controller.isVisible.value,
+                              validate: controller.validatePassword,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Obx(
+                            () => CustomPasswordFormField(
+                              userFunction: () =>
+                                  controller.changeConfirmVisibility(),
+                              hintText: "Confirm your password",
+                              controller: controller.confirmPassword,
+                              isVisible: controller.isConfirmVisible.value,
+                              validate: controller.validatePassword,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -68,7 +78,13 @@ class NewPassword extends StatelessWidget {
               CustomButton(
                 buttonText: 'Register',
                 buttonFunction: () {
-                  Get.offAllNamed('/home');
+                  if (controller.password.text ==
+                      controller.confirmPassword.text) {
+                    controller.signUpWithEmailAndPassword(
+                      email: emailAddress,
+                      password: controller.password.text,
+                    );
+                  }
                 },
               ),
             ],

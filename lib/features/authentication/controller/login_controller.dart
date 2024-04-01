@@ -19,4 +19,11 @@ class LoginController extends GetxController {
     }
     return null;
   }
+
+  String? validatePassword(String? password) {
+    if (password == null) {
+      return "Password can not be empty";
+    }
+    return null;
+  }
 }

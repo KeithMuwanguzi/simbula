@@ -35,11 +35,6 @@ List<GetPage> getpages = [
     binding: SignUpBinding(),
   ),
   GetPage(
-    name: '/newpassword',
-    page: () => const NewPassword(),
-    binding: NewPassBinding(),
-  ),
-  GetPage(
     name: '/welcome',
     page: () => const Welcome(),
   ),

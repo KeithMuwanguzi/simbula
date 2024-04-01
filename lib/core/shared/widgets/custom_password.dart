@@ -5,19 +5,22 @@ class CustomPasswordFormField extends StatelessWidget {
   final bool isVisible;
   final VoidCallback userFunction;
   final String hintText;
-  const CustomPasswordFormField({
-    super.key,
-    required this.userFunction,
-    required this.controller,
-    required this.hintText,
-    required this.isVisible,
-  });
+  // ignore: prefer_typing_uninitialized_variables
+  final validate;
+  const CustomPasswordFormField(
+      {super.key,
+      required this.userFunction,
+      required this.controller,
+      required this.hintText,
+      required this.isVisible,
+      required this.validate});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       obscureText: isVisible,
+      validator: validate,
       decoration: InputDecoration(
           hintText: hintText,
           hintStyle: const TextStyle(fontSize: 15),

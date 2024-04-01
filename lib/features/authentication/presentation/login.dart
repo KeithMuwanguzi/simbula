@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/features/authentication/controller/login_controller.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/features/authentication/services/firebase_services.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 50, 20, 30),
-          child: Column(
+          child: ListView(
             children: [
               Expanded(
                 child: Column(
@@ -43,6 +44,7 @@ class LoginPage extends StatelessWidget {
                                 userFunction: () =>
                                     controller.changeVisibility(),
                                 isVisible: controller.isVisible.value,
+                                validate: controller.validatePassword,
                               ),
                             ),
                           ),
@@ -71,7 +73,12 @@ class LoginPage extends StatelessWidget {
               CustomButton(
                 buttonText: 'Sign In',
                 buttonFunction: () {
-                  Get.offAllNamed('/home');
+                  if (controller.key.currentState!.validate()) {
+                    AuthController.instance.signInWithEmailAndPassword(
+                      email: controller.email.text.trim(),
+                      password: controller.password.text.trim(),
+                    );
+                  }
                 },
               ),
               const SizedBox(height: 10),
