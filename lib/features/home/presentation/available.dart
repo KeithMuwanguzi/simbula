@@ -25,7 +25,7 @@ class AvailableCars extends GetView<ControllerHome> {
             ),
             const SizedBox(height: 15),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 122.28574,
+              height: MediaQuery.of(context).size.height - 144,
               child: GridView.builder(
                 itemCount: controller.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -58,7 +58,7 @@ class AvailableCars extends GetView<ControllerHome> {
 
   Container buildCar(Car car) {
     return Container(
-      height: 200,
+      // height: 220,
       width: double.infinity / 2,
       margin: const EdgeInsets.all(1),
       padding: const EdgeInsets.all(8),
@@ -88,7 +88,7 @@ class AvailableCars extends GetView<ControllerHome> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 car.brand,
@@ -98,25 +98,24 @@ class AvailableCars extends GetView<ControllerHome> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Per ${car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"}",
-                style: GoogleFonts.roboto(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-              Text(
-                '\$ ${car.price.toString()}',
-                style: GoogleFonts.roboto(
-                  fontSize: 12,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
+              Column(
+                children: [
+                  Text(
+                    "Per ${car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"}",
+                    style: GoogleFonts.roboto(
+                      fontSize: 9,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Text(
+                    '\$ ${car.price.toString()}',
+                    style: GoogleFonts.roboto(
+                      fontSize: 10,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

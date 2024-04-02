@@ -198,7 +198,7 @@ class HomeView extends GetView<ControllerHome> {
               Radius.circular(15),
             ),
           ),
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(20),
           height: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,7 +288,7 @@ class HomeView extends GetView<ControllerHome> {
           ),
         ),
         SizedBox(
-          height: 280,
+          height: 282,
           child: ListView(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,

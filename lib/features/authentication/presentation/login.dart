@@ -15,10 +15,10 @@ class LoginPage extends StatelessWidget {
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 50, 20, 30),
-          child: ListView(
+          child: Column(
             children: [
               Expanded(
-                child: Column(
+                child: ListView(
                   children: [
                     const TextWidget(
                       text: "Sign In with your email address or phone number.",
