@@ -45,7 +45,11 @@ class AuthController extends GetxController {
         'Error signing in',
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.red,
+        backgroundColor: Colors.red,
+        icon: const Icon(
+          Icons.error,
+        ),
+        colorText: Colors.white,
       );
     }
   }

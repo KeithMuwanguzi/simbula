@@ -5,27 +5,20 @@ import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/authentication/controller/signup_controller.dart';
 import 'package:some_ride/features/authentication/presentation/export.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  String selected = "Male";
-
-  final SignUpController signUpController = Get.find<SignUpController>();
-  @override
   Widget build(BuildContext context) {
+    final SignUpController signUpController = Get.find<SignUpController>();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-        child: ListView(
+        child: Column(
           children: [
             Expanded(
-              child: Column(
+              child: ListView(
                 children: [
                   const TextWidget(
                     text: "SignUp with your phone number or email address.",
@@ -33,29 +26,38 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 10),
                   Form(
+                    key: signUpController.key,
                     child: Column(
-                      key: signUpController.formKey,
                       children: [
                         CustomTextFormField(
                           controller: signUpController.name,
                           hintText: "Name",
                           isPassword: false,
+                          validate: signUpController.validateField,
                         ),
                         const SizedBox(height: 10),
                         CustomTextFormField(
                           controller: signUpController.email,
                           hintText: "Email",
                           isPassword: false,
+                          validate: signUpController.validateEmail,
                         ),
                         const SizedBox(height: 10),
                         CustomTextFormField(
                           controller: signUpController.number,
                           hintText: "Phone Number",
                           isPassword: false,
+                          validate: signUpController.validateField,
                         ),
                         const SizedBox(height: 10),
-                        genderButton(),
-                        const SizedBox(height: 12),
+                        Obx(
+                          () => genderButton(signUpController),
+                        ),
+                        const SizedBox(height: 10),
+                        Obx(
+                          () => selectUserType(signUpController),
+                        ),
+                        const SizedBox(height: 20),
                         Row(
                           children: [
                             const Icon(
@@ -64,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             const SizedBox(width: 7),
                             Expanded(
-                              child: privacyPolicy(13),
+                              child: privacyPolicy(context, 13),
                             ),
                           ],
                         ),
@@ -77,9 +79,12 @@ class _SignUpPageState extends State<SignUpPage> {
             CustomButton(
               buttonText: "Sign Up",
               buttonFunction: () {
-                Get.to(
-                  () => NewPassword(emailAddress: signUpController.email.text),
-                );
+                if (signUpController.key.currentState!.validate()) {
+                  Get.to(
+                    () =>
+                        NewPassword(emailAddress: signUpController.email.text),
+                  );
+                }
               },
             ),
             const SizedBox(height: 10),
@@ -111,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  RichText privacyPolicy(double fSize) {
+  RichText privacyPolicy(BuildContext context, double fSize) {
     return RichText(
       text: TextSpan(children: [
         TextSpan(
@@ -148,17 +153,15 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  DropdownButtonFormField<String> genderButton() {
+  DropdownButtonFormField<String> genderButton(controller) {
     return DropdownButtonFormField(
       decoration: InputDecoration(
         labelText: 'Gender',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
-      value: selected,
+      value: controller.selected.value,
       onChanged: (newValue) {
-        setState(() {
-          selected = newValue.toString();
-        });
+        controller.selected.value = newValue.toString();
       },
       items: <String>['Male', 'Female', 'Other']
           .map<DropdownMenuItem<String>>((String value) {
@@ -170,6 +173,32 @@ class _SignUpPageState extends State<SignUpPage> {
       validator: (value) {
         if (value == null) {
           return 'Please select gender';
+        }
+        return null;
+      },
+    );
+  }
+
+  DropdownButtonFormField<String> selectUserType(controller) {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(
+        labelText: 'User-Type',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+      ),
+      value: controller.userType.value,
+      onChanged: (newValue) {
+        controller.userType.value = newValue.toString();
+      },
+      items: <String>['Driver', 'Customer']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      validator: (value) {
+        if (value == null) {
+          return 'Please select user type';
         }
         return null;
       },

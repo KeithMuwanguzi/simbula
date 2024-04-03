@@ -18,57 +18,12 @@ class LoginPage extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: ListView(
-                  children: [
-                    const TextWidget(
-                      text: "Sign In with your email address or phone number.",
-                      size: 17,
-                    ),
-                    const SizedBox(height: 10),
-                    Form(
-                      key: controller.key,
-                      child: Column(
-                        children: [
-                          CustomTextFormField(
-                            controller: controller.email,
-                            hintText: "Email or Phone number",
-                            isPassword: false,
-                          ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: 55,
-                            child: Obx(
-                              () => CustomPasswordFormField(
-                                controller: controller.password,
-                                hintText: "Enter your password",
-                                userFunction: () =>
-                                    controller.changeVisibility(),
-                                isVisible: controller.isVisible.value,
-                                validate: controller.validatePassword,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Text(
-                                  "Forgot password?",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 13,
-                                    color: Colors.blue[600],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                child: ListView(children: [
+                  SizedBox(height: MediaQuery.of(context).size.height / 4),
+                  Column(
+                    children: loginPage(controller),
+                  )
+                ]),
               ),
               CustomButton(
                 buttonText: 'Sign In',
@@ -107,5 +62,59 @@ class LoginPage extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  List<Widget> loginPage(
+    controller,
+  ) {
+    return [
+      const TextWidget(
+        text: "Sign In with your email address or phone number.",
+        size: 17,
+      ),
+      const SizedBox(height: 10),
+      Form(
+        key: controller.key,
+        child: Column(
+          children: [
+            CustomTextFormField(
+              controller: controller.email,
+              hintText: "Email or Phone number",
+              isPassword: false,
+              validate: controller.validateEmail,
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 55,
+              child: Obx(
+                () => CustomPasswordFormField(
+                  controller: controller.password,
+                  hintText: "Enter your password",
+                  userFunction: () => controller.changeVisibility(),
+                  isVisible: controller.isVisible.value,
+                  validate: controller.validatePassword,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    "Forgot password?",
+                    style: GoogleFonts.roboto(
+                      fontSize: 13,
+                      color: Colors.blue[600],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    ];
   }
 }
