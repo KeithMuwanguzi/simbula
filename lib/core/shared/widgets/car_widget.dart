@@ -4,7 +4,7 @@ import 'package:some_ride/core/shared/styles/colors.dart';
 
 import '../../../features/home/model/export.dart';
 
-Widget buildCar(Car car, [int? index]) {
+Widget buildCar(BuildContext context, Car car, [int? index]) {
   return Container(
     decoration: const BoxDecoration(
       color: Colors.white,
@@ -32,8 +32,8 @@ Widget buildCar(Car car, [int? index]) {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(
                 car.condition,
-                style: TextStyle(
-                  color: kPrimaryColor,
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).primaryColor,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),

@@ -308,7 +308,8 @@ class HomeView extends GetView<ControllerHome> {
                             images: car.images,
                           ),
                         ),
-                    child: buildCar(car, controller.cars.indexOf(car))))
+                    child:
+                        buildCar(context, car, controller.cars.indexOf(car))))
                 .toList(),
           ),
         ),
