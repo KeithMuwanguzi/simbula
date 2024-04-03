@@ -32,7 +32,7 @@ Widget buildCar(BuildContext context, Car car, [int? index]) {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(
                 car.condition,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.roboto(
                   color: Theme.of(context).primaryColor,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
