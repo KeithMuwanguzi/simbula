@@ -22,7 +22,7 @@ class CarNameWidget extends StatelessWidget {
             model,
             style: GoogleFonts.roboto(
               color: Colors.grey,
-              fontSize: 20,
+              fontSize: 18,
             ),
           ),
         ),
@@ -30,9 +30,9 @@ class CarNameWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             brand,
-            style: GoogleFonts.roboto(
+            style: GoogleFonts.poppins(
               color: Colors.black,
-              fontSize: 35,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
             ),
           ),

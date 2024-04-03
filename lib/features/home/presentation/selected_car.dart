@@ -41,12 +41,11 @@ class SelectedCar extends StatelessWidget {
                     Text(
                       'SPECIFICATIONS',
                       style: GoogleFonts.roboto(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
                       ),
                     ),
-                    const SizedBox(height: 10),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

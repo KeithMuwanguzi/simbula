@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/styles/colors.dart';
 
 import '../../../features/home/model/export.dart';
@@ -56,20 +57,23 @@ Widget buildCar(Car car, [int? index]) {
         const SizedBox(height: 24),
         Text(
           car.model,
-          style: const TextStyle(fontSize: 18),
+          style: GoogleFonts.roboto(
+            fontSize: 15,
+            color: Colors.black,
+          ),
         ),
-        const SizedBox(height: 8),
         Text(
           car.brand,
-          style: const TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             height: 1,
+            color: Colors.black,
           ),
         ),
         Text(
           "per ${car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"}",
-          style: const TextStyle(
+          style: GoogleFonts.roboto(
             fontSize: 14,
             color: Colors.grey,
           ),

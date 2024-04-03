@@ -15,7 +15,7 @@ class ControllerHome extends GetxController {
     super.onInit();
     cars = CarService().getCarList();
     dealers = DealerService().getDealerList();
-    displayCar = cars[4];
+    displayCar = cars[3];
     length = cars.length;
   }
 }

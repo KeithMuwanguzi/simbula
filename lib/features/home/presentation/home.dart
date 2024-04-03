@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:some_ride/core/shared/styles/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
@@ -23,9 +23,9 @@ class HomeView extends GetView<ControllerHome> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 buildHeader(context),
-                buildAvailableCars(),
-                buildTopDeals(),
-                buildTopDealers(),
+                buildAvailableCars(context),
+                buildTopDeals(context),
+                buildTopDealers(context),
               ],
             ),
           ),
@@ -65,17 +65,17 @@ class HomeView extends GetView<ControllerHome> {
                     children: [
                       Text(
                         "My Recents",
-                        style: TextStyle(
+                        style: GoogleFonts.roboto(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
-                          color: kPrimaryColor,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       const SizedBox(width: 8),
                       Icon(
-                        Icons.arrow_forward,
-                        size: 23,
-                        color: kPrimaryColor,
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ],
                   ),
@@ -130,9 +130,12 @@ class HomeView extends GetView<ControllerHome> {
                     badgeColor: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(13),
                     elevation: 0,
-                    badgeContent: const Text(
+                    badgeContent: Text(
                       "Gold",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      style: GoogleFonts.roboto(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
@@ -141,24 +144,26 @@ class HomeView extends GetView<ControllerHome> {
           ),
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 2, right: 3),
+                      padding: const EdgeInsets.only(bottom: 2, right: 3),
                       child: Text(
                         "IDR",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                     Text(
                       "17,7jt",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 20,
                         color: Colors.black,
                       ),
                     ),
@@ -169,7 +174,7 @@ class HomeView extends GetView<ControllerHome> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: kPrimaryColor,
+                    color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(15),
                     ),
@@ -186,14 +191,14 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget buildAvailableCars() {
+  Widget buildAvailableCars(context) {
     return GestureDetector(
       onTap: () => Get.toNamed('/available-cars'),
       child: Padding(
         padding: const EdgeInsets.only(top: 20, right: 16, left: 16),
         child: Container(
           decoration: BoxDecoration(
-            color: kPrimaryColor,
+            color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.all(
               Radius.circular(15),
             ),
@@ -203,13 +208,13 @@ class HomeView extends GetView<ControllerHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Available Cars",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -217,7 +222,7 @@ class HomeView extends GetView<ControllerHome> {
                   ),
                   Text(
                     "Long term and short term",
-                    style: TextStyle(
+                    style: GoogleFonts.roboto(
                       fontSize: 16,
                       color: Colors.white,
                     ),
@@ -236,7 +241,7 @@ class HomeView extends GetView<ControllerHome> {
                 child: Center(
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    color: kPrimaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),
@@ -247,7 +252,7 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget buildTopDeals() {
+  Widget buildTopDeals(context) {
     return Column(
       children: [
         Padding(
@@ -257,8 +262,8 @@ class HomeView extends GetView<ControllerHome> {
             children: [
               Text(
                 "TOP DEALS",
-                style: TextStyle(
-                  fontSize: 22,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[400],
                 ),
@@ -269,17 +274,17 @@ class HomeView extends GetView<ControllerHome> {
                   children: [
                     Text(
                       "More",
-                      style: TextStyle(
+                      style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: kPrimaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Icon(
                       Icons.arrow_forward_ios,
                       size: 12,
-                      color: kPrimaryColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
@@ -311,7 +316,7 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget buildTopDealers() {
+  Widget buildTopDealers(context) {
     return Column(
       children: [
         Padding(
@@ -321,7 +326,7 @@ class HomeView extends GetView<ControllerHome> {
             children: [
               Text(
                 "TOP DEALERS",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[400],
@@ -333,10 +338,10 @@ class HomeView extends GetView<ControllerHome> {
                   children: [
                     Text(
                       "More",
-                      style: TextStyle(
+                      style: GoogleFonts.roboto(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: kPrimaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     const SizedBox(
@@ -345,7 +350,7 @@ class HomeView extends GetView<ControllerHome> {
                     Icon(
                       Icons.arrow_forward_ios,
                       size: 12,
-                      color: kPrimaryColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
