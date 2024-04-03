@@ -7,44 +7,53 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
+      appBar: AppBar(
+        title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // Navigate to settings page
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Confirmation"),
+                    content: const Text("Are you sure you want to log out?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          AuthController.instance.signOut();
+                        },
+                        child: const Text("Yes"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Cancel log out action
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("No"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+      body: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Profile"),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Confirmation"),
-                        content:
-                            const Text("Are you sure you want to log out?"),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              AuthController.instance.signOut();
-                            },
-                            child: const Text("Yes"),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Cancel log out action
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text("No"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: const Text("Log Out"),
-              )
+              Text("Profile"),
             ],
           ),
         ],
