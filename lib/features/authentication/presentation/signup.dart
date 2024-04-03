@@ -10,7 +10,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignUpController signUpController = Get.find<SignUpController>();
+    final SignUpController controller = Get.find<SignUpController>();
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -26,36 +26,36 @@ class SignUpPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Form(
-                    key: signUpController.key,
+                    key: controller.key,
                     child: Column(
                       children: [
                         CustomTextFormField(
-                          controller: signUpController.name,
+                          controller: controller.name,
                           hintText: "Name",
                           isPassword: false,
-                          validate: signUpController.validateField,
+                          validate: controller.validateField,
                         ),
                         const SizedBox(height: 10),
                         CustomTextFormField(
-                          controller: signUpController.email,
+                          controller: controller.email,
                           hintText: "Email",
                           isPassword: false,
-                          validate: signUpController.validateEmail,
+                          validate: controller.validateEmail,
                         ),
                         const SizedBox(height: 10),
                         CustomTextFormField(
-                          controller: signUpController.number,
+                          controller: controller.number,
                           hintText: "Phone Number",
                           isPassword: false,
-                          validate: signUpController.validateField,
+                          validate: controller.validateField,
                         ),
                         const SizedBox(height: 10),
                         Obx(
-                          () => genderButton(signUpController),
+                          () => genderButton(controller),
                         ),
                         const SizedBox(height: 10),
                         Obx(
-                          () => selectUserType(signUpController),
+                          () => selectUserType(controller),
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -79,10 +79,15 @@ class SignUpPage extends StatelessWidget {
             CustomButton(
               buttonText: "Sign Up",
               buttonFunction: () {
-                if (signUpController.key.currentState!.validate()) {
+                if (controller.key.currentState!.validate()) {
                   Get.to(
-                    () =>
-                        NewPassword(emailAddress: signUpController.email.text),
+                    () => NewPassword(
+                      emailAddress: controller.email.text.trim(),
+                      name: controller.name.text.trim(),
+                      phoneNumber: controller.number.text.trim(),
+                      gender: controller.selected.value,
+                      userType: controller.userType.value,
+                    ),
                   );
                 }
               },

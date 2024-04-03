@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:some_ride/core/shared/widgets/export.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -16,13 +18,32 @@ class AuthController extends GetxController {
     ever(_firebaseUser, initialScreen);
   }
 
-  void createUserWithEmailAndPassword(
-      {required String email, required String password}) async {
+  void createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String name,
+    required String phoneNumber,
+    required String gender,
+    required String userType,
+  }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      User? user = userCredential.user;
+      if (user != null) {
+        addUserToFirestore(
+          uid: user.uid,
+          email: email,
+          name: name,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          userType: userType,
+        );
+      }
     } catch (e) {
       Get.snackbar(
         'Error creating account',
@@ -72,6 +93,26 @@ class AuthController extends GetxController {
       Get.offAllNamed('/');
     } else {
       Get.offAllNamed('/home');
+    }
+  }
+
+  Future<void> addUserToFirestore(
+      {required String uid,
+      required String email,
+      required String name,
+      required String phoneNumber,
+      required String gender,
+      required String userType}) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'name': name,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'gender': gender,
+        'userType': userType,
+      });
+    } catch (e) {
+      errorSnackBar(title: 'Error Occured', text: e.toString());
     }
   }
 }

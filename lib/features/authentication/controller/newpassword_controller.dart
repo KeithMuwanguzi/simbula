@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:some_ride/features/authentication/services/firebase_services.dart';
 
 class NewPasswordController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -19,20 +18,20 @@ class NewPasswordController extends GetxController {
     isConfirmVisible.value = !isConfirmVisible.value;
   }
 
-  String? validatePassword(String? password) {
-    if (password == null) {
-      return "Password can not be empty";
+  String? validateConfirmPassword(String? pass) {
+    if (password.text != confirmPassword.text) {
+      return 'Passwords do not match';
     }
     return null;
   }
 
-  void signUpWithEmailAndPassword(
-      {required String email, required String password}) {
-    if (formKey.currentState!.validate()) {
-      AuthController.instance.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
+  String? validatePassword(String? password) {
+    if (password == null || password.isEmpty) {
+      return 'Password cannot be empty';
     }
+    if (password.length < 8) {
+      return "Password is too short";
+    }
+    return null;
   }
 }

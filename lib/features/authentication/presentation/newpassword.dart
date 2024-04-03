@@ -4,10 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/features/authentication/controller/newpassword_controller.dart';
 import 'package:some_ride/core/shared/widgets/custom_password.dart';
 import 'package:some_ride/core/shared/widgets/custombutton.dart';
+import 'package:some_ride/features/authentication/services/firebase_services.dart';
 
 class NewPassword extends StatelessWidget {
   final String emailAddress;
-  const NewPassword({super.key, required this.emailAddress});
+  final String name;
+  final String phoneNumber;
+  final String gender;
+  final String userType;
+  const NewPassword({
+    super.key,
+    required this.emailAddress,
+    required this.name,
+    required this.gender,
+    required this.userType,
+    required this.phoneNumber,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +31,9 @@ class NewPassword extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Column(
+                child: ListView(
                   children: [
+                    SizedBox(height: MediaQuery.of(context).size.height / 6),
                     Text(
                       "Set New Password",
                       style: GoogleFonts.roboto(
@@ -58,7 +71,7 @@ class NewPassword extends StatelessWidget {
                               hintText: "Confirm your password",
                               controller: controller.confirmPassword,
                               isVisible: controller.isConfirmVisible.value,
-                              validate: controller.validatePassword,
+                              validate: controller.validateConfirmPassword,
                             ),
                           ),
                         ],
@@ -78,11 +91,14 @@ class NewPassword extends StatelessWidget {
               CustomButton(
                 buttonText: 'Register',
                 buttonFunction: () {
-                  if (controller.password.text ==
-                      controller.confirmPassword.text) {
-                    controller.signUpWithEmailAndPassword(
+                  if (controller.formKey.currentState!.validate()) {
+                    AuthController.instance.createUserWithEmailAndPassword(
                       email: emailAddress,
-                      password: controller.password.text,
+                      password: controller.password.text.trim(),
+                      name: name,
+                      phoneNumber: phoneNumber,
+                      gender: gender,
+                      userType: userType,
                     );
                   }
                 },
