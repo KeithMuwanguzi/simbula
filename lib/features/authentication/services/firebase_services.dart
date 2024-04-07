@@ -113,6 +113,7 @@ class AuthController extends GetxController {
       });
     } catch (e) {
       errorSnackBar(
+        duration: const Duration(seconds: 2),
         icon: Icons.error,
         title: 'Error Occured',
         text: e.toString(),

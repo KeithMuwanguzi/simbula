@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 
@@ -16,6 +17,8 @@ class ConnectionController extends GetxController {
     if (result.contains(ConnectivityResult.none)) {
       goAhead.value = false;
       errorSnackBar(
+          duration: const Duration(days: 2),
+          icon: Icons.wifi_off,
           title: 'No Internet Connection',
           text: 'Please check your internet connection and try again');
     } else {

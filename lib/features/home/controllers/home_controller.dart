@@ -53,17 +53,6 @@ class HomeController extends GetxController {
       }
     }
 
-    if (!await Geolocator.isLocationServiceEnabled()) {
-      Get.snackbar(
-        'Permission',
-        'Enable your Location',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-      );
-      return;
-    }
-
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );

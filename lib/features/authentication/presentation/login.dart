@@ -31,6 +31,8 @@ class LoginPage extends StatelessWidget {
                 buttonFunction: () async {
                   if (!await Geolocator.isLocationServiceEnabled()) {
                     errorSnackBar(
+                        duration: const Duration(seconds: 2),
+                        icon: Icons.location_off,
                         title: 'Enable your Location',
                         text:
                             'Please make sure your device location is enabled!');
