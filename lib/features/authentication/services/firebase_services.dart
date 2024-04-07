@@ -112,7 +112,11 @@ class AuthController extends GetxController {
         'userType': userType,
       });
     } catch (e) {
-      errorSnackBar(title: 'Error Occured', text: e.toString());
+      errorSnackBar(
+        icon: Icons.error,
+        title: 'Error Occured',
+        text: e.toString(),
+      );
     }
   }
 }

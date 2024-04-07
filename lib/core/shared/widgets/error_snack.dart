@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-errorSnackBar({required String title, required String text}) {
+errorSnackBar(
+    {required IconData icon, required String title, required String text}) {
   Get.snackbar(
     title,
     text,
@@ -10,8 +11,8 @@ errorSnackBar({required String title, required String text}) {
     backgroundColor: Colors.red,
     colorText: Colors.white,
     duration: const Duration(days: 1),
-    icon: const Icon(
-      Icons.wifi_off,
+    icon: Icon(
+      icon,
       color: Colors.white,
     ),
   );

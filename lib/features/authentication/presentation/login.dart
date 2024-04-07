@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/features/authentication/controller/login_controller.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/authentication/services/firebase_services.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -27,12 +28,20 @@ class LoginPage extends StatelessWidget {
               ),
               CustomButton(
                 buttonText: 'Sign In',
-                buttonFunction: () {
-                  if (controller.key.currentState!.validate()) {
-                    AuthController.instance.signInWithEmailAndPassword(
-                      email: controller.email.text.trim(),
-                      password: controller.password.text.trim(),
-                    );
+                buttonFunction: () async {
+                  if (!await Geolocator.isLocationServiceEnabled()) {
+                    errorSnackBar(
+                        title: 'Enable your Location',
+                        text:
+                            'Please make sure your device location is enabled!');
+                    return;
+                  } else {
+                    if (controller.key.currentState!.validate()) {
+                      AuthController.instance.signInWithEmailAndPassword(
+                        email: controller.email.text.trim(),
+                        password: controller.password.text.trim(),
+                      );
+                    }
                   }
                 },
               ),

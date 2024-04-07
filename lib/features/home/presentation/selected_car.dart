@@ -138,11 +138,12 @@ class SelectedCar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildPeriodContainer("12 Months", "10% Off", "\$$price", true),
                 buildPeriodContainer(
-                    "6 Months", "5% Off", "\$${price / 2}", false),
+                    context, "12 Months", "10% Off", "\$$price", true),
                 buildPeriodContainer(
-                    "3 Months", "2% Off", "\$${price / 4}", false),
+                    context, "6 Months", "5% Off", "\$${price / 2}", false),
+                buildPeriodContainer(
+                    context, "3 Months", "2% Off", "\$${price / 4}", false),
               ],
             ),
           ),
@@ -151,9 +152,9 @@ class SelectedCar extends StatelessWidget {
     );
   }
 
-  buildPeriodContainer(String s, String t, String u, bool selected) {
+  buildPeriodContainer(context, String s, String t, String u, bool selected) {
     return Container(
-      width: 120,
+      width: MediaQuery.of(context).size.width / 3.5,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: selected ? Colors.blue[800] : Colors.white,

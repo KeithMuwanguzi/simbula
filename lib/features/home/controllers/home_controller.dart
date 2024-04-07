@@ -69,4 +69,18 @@ class HomeController extends GetxController {
     );
     userLocation = LatLng(position.latitude, position.longitude);
   }
+
+  GoogleMapController? mapController;
+
+  final Rx<Marker> destinationMarker = const Marker(
+    markerId: MarkerId('destination'),
+    position: LatLng(0.0, 0.0),
+  ).obs;
+
+  void updateDestinationMarker(LatLng position) {
+    destinationMarker.value = Marker(
+      markerId: const MarkerId('destination'),
+      position: position,
+    );
+  }
 }

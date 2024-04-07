@@ -14,18 +14,11 @@ class CarPoolHome extends GetView<HomeController> {
           Obx(
             () => controller.loading.value ? loadingMap() : loadMap(),
           ),
-          Positioned(
-            top: 20,
-            left: 10,
-            child: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
+          const Positioned(
+            top: 20.0,
+            left: 20.0,
+            right: 20.0,
+            child: SearchBar(),
           ),
         ],
       ),
@@ -42,7 +35,6 @@ class CarPoolHome extends GetView<HomeController> {
       myLocationButtonEnabled: true,
       zoomControlsEnabled: true,
       onMapCreated: (GoogleMapController mapController) {
-        // Set the initial camera position
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
@@ -77,4 +69,48 @@ class CarPoolHome extends GetView<HomeController> {
       ),
     );
   }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5.0,
+            spreadRadius: 1.0,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              handleSearch();
+            },
+          ),
+          Expanded(
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: 'Search destination',
+                border: InputBorder.none,
+              ),
+              onSubmitted: (value) {
+                handleSearch();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void handleSearch() {}
 }
