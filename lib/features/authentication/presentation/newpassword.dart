@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:some_ride/core/shared/widgets/error_snack.dart';
 import 'package:some_ride/features/authentication/controller/newpassword_controller.dart';
 import 'package:some_ride/core/shared/widgets/custom_password.dart';
 import 'package:some_ride/core/shared/widgets/custombutton.dart';
@@ -90,16 +92,26 @@ class NewPassword extends StatelessWidget {
               ),
               CustomButton(
                 buttonText: 'Register',
-                buttonFunction: () {
+                buttonFunction: () async {
                   if (controller.formKey.currentState!.validate()) {
-                    AuthController.instance.createUserWithEmailAndPassword(
-                      email: emailAddress,
-                      password: controller.password.text.trim(),
-                      name: name,
-                      phoneNumber: phoneNumber,
-                      gender: gender,
-                      userType: userType,
-                    );
+                    if (!await Geolocator.isLocationServiceEnabled()) {
+                      errorSnackBar(
+                          duration: const Duration(seconds: 2),
+                          icon: Icons.location_off,
+                          title: 'Enable your Location',
+                          text:
+                              'Please make sure your device location is enabled!');
+                      return;
+                    } else {
+                      AuthController.instance.createUserWithEmailAndPassword(
+                        email: emailAddress,
+                        password: controller.password.text.trim(),
+                        name: name,
+                        phoneNumber: phoneNumber,
+                        gender: gender,
+                        userType: userType,
+                      );
+                    }
                   }
                 },
               ),
