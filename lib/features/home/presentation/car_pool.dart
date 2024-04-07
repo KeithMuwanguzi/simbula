@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:some_ride/features/home/controllers/home_controller.dart';
+import 'package:some_ride/features/home/presentation/search_bar.dart';
 
 class CarPoolHome extends GetView<HomeController> {
   const CarPoolHome({super.key});
@@ -18,8 +20,8 @@ class CarPoolHome extends GetView<HomeController> {
             top: 20.0,
             left: 20.0,
             right: 20.0,
-            child: SearchBar(),
-          ),
+            child: SearchBarPage(),
+          )
         ],
       ),
     );
@@ -69,48 +71,4 @@ class CarPoolHome extends GetView<HomeController> {
       ),
     );
   }
-}
-
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5.0,
-            spreadRadius: 1.0,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              handleSearch();
-            },
-          ),
-          Expanded(
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search destination',
-                border: InputBorder.none,
-              ),
-              onSubmitted: (value) {
-                handleSearch();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void handleSearch() {}
 }
