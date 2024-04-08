@@ -61,15 +61,17 @@ class HomeController extends GetxController {
 
   GoogleMapController? mapController;
 
-  final Rx<Marker> destinationMarker = const Marker(
-    markerId: MarkerId('destination'),
-    position: LatLng(0.0, 0.0),
+  final Rx<Marker> destinationMarker = Marker(
+    markerId: const MarkerId('destination'),
+    position: const LatLng(0.0, 0.0),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
   ).obs;
 
   void updateDestinationMarker(LatLng position) {
     destinationMarker.value = Marker(
       markerId: const MarkerId('destination'),
       position: position,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
   }
 }

@@ -53,6 +53,7 @@ class CarPoolHome extends GetView<HomeController> {
           icon:
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         ),
+        controller.destinationMarker.value,
       },
     );
   }
