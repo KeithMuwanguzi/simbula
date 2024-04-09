@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,6 +12,8 @@ class CarPoolHome extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final Completer<GoogleMapController> _controller = Completer();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -55,6 +59,10 @@ class CarPoolHome extends GetView<HomeController> {
         ),
         controller.destinationMarker.value,
       },
+      polylines:
+          controller.destinationMarker.value.position != const LatLng(0, 0)
+              ? {controller.drawPolyline()}
+              : {},
     );
   }
 

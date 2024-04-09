@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:some_ride/core/constants/constants.dart';
 
 import '../widgets/bottom_item.dart';
 
@@ -73,5 +75,35 @@ class HomeController extends GetxController {
       position: position,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
+  }
+
+  Polyline drawPolyline() {
+    Polyline polyline = Polyline(
+      polylineId: const PolylineId('route'),
+      color: Colors.blue,
+      width: 5,
+      points: [
+        userLocation, // User's current location
+        destinationMarker.value.position, // Updated destination
+      ],
+    );
+    return polyline;
+  }
+
+  Future<List<LatLng>> getPolylinePoints() async {
+    List<LatLng> polylineCoordinates = [];
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey,
+      PointLatLng(userLocation.latitude, userLocation.longitude),
+      PointLatLng(destinationMarker.value.position.latitude,
+          destinationMarker.value.position.longitude),
+    );
+    if (result.points.isNotEmpty) {
+      result.points.forEach((point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    return polylineCoordinates;
   }
 }
