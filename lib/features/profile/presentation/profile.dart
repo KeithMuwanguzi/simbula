@@ -28,29 +28,49 @@ class Profile extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Confirmation"),
-                    content: const Text("Are you sure you want to log out?"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          AuthController.instance.signOut();
-                        },
-                        child: const Text("Yes"),
+              Get.bottomSheet(
+                Container(
+                  height: MediaQuery.of(context).size.height / 7,
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  color: Colors.grey[200],
+                  child: Column(
+                    children: [
+                      const TextWidget(
+                        size: 18,
+                        text: 'Are you sure you want to logout?',
+                        color: Colors.black,
                       ),
-                      TextButton(
-                        onPressed: () {
-                          // Cancel log out action
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text("No"),
-                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.check_circle,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              AuthController.instance.signOut();
+                            },
+                          ),
+                          const SizedBox(width: 70),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.cancel,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ],
+                      )
                     ],
-                  );
-                },
+                  ),
+                ),
               );
             },
           ),
@@ -99,6 +119,7 @@ class Profile extends StatelessWidget {
                                         onTap: () {
                                           controller
                                               .pickImage(ImageSource.gallery);
+                                          Get.back();
                                         },
                                         child: const Icon(
                                           Icons.photo,
@@ -113,6 +134,7 @@ class Profile extends StatelessWidget {
                                         onTap: () {
                                           controller
                                               .pickImage(ImageSource.camera);
+                                          Get.back();
                                         },
                                         child: const Icon(
                                           Icons.camera_alt,
@@ -220,24 +242,18 @@ class Profile extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             Row(
                               children: [
-                                const Icon(Icons.home, size: 20),
+                                const Icon(Icons.group, size: 20),
                                 const SizedBox(width: 40),
                                 TextWidget(
                                   size: 14,
                                   text: '${userModel.userType}',
                                 ),
-                                Expanded(child: Container()),
-                                const SizedBox(width: 10),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.edit, size: 15),
-                                ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             Row(
                               children: [
                                 userModel.gender == 'Male'
@@ -248,15 +264,9 @@ class Profile extends StatelessWidget {
                                   size: 14,
                                   text: '${userModel.gender}',
                                 ),
-                                Expanded(child: Container()),
-                                const SizedBox(width: 10),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.edit, size: 15),
-                                ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             Row(
                               children: [
                                 const Icon(Icons.phone, size: 20),
@@ -264,12 +274,6 @@ class Profile extends StatelessWidget {
                                 TextWidget(
                                   size: 14,
                                   text: '${userModel.phoneNumber}',
-                                ),
-                                Expanded(child: Container()),
-                                const SizedBox(width: 10),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.edit, size: 15),
                                 ),
                               ],
                             ),
