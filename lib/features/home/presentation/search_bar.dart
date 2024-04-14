@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:some_ride/core/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:some_ride/features/home/controllers/home_controller.dart';
+import 'package:some_ride/features/home/presentation/car_pool.dart';
 
 class SearchBarPage extends StatefulWidget {
   const SearchBarPage({super.key});
@@ -19,6 +20,20 @@ class SearchBarPage extends StatefulWidget {
 class _SearchBarPageState extends State<SearchBarPage> {
   final TextEditingController _searchController = TextEditingController();
   final HomeController controller = Get.find<HomeController>();
+
+  void getPolyfromPoints(List<LatLng>? points) {
+    PolylineId id = const PolylineId('route');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      width: 5,
+      points: points!,
+    );
+    setState(() {
+      CarPoolHome.polylines[id] = polyline;
+    });
+  }
+
   List listofPlaces = [];
   String groundURL =
       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
@@ -109,8 +124,17 @@ class _SearchBarPageState extends State<SearchBarPage> {
                       onTap: () async {
                         List<Location> location = await locationFromAddress(
                             listofPlaces[index]['description']);
-                        controller.updateDestinationMarker(LatLng(
-                            location.last.latitude, location.last.longitude));
+                        controller.updateDestinationMarker(
+                          LatLng(
+                              location.last.latitude, location.last.longitude),
+                        );
+                        controller.changeDestination(
+                          LatLng(
+                              location.last.latitude, location.last.longitude),
+                        );
+                        controller.getPolylinePoints().then(
+                              (value) => getPolyfromPoints(value),
+                            );
                         _searchController.clear();
                       },
                     );

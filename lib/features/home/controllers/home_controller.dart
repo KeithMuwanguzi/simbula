@@ -11,11 +11,17 @@ class HomeController extends GetxController {
   LatLng userLocation = const LatLng(0, 0);
   var loading = true.obs;
 
+  Rx<LatLng> destination = const LatLng(0, 0).obs;
+
   @override
   void onInit() async {
     super.onInit();
     await checkPermissionsAndGetCurrentUserLocation();
     loading.value = false;
+  }
+
+  changeDestination(position) {
+    destination.value = position;
   }
 
   TextEditingController search = TextEditingController();
@@ -81,7 +87,7 @@ class HomeController extends GetxController {
     Polyline polyline = Polyline(
       polylineId: const PolylineId('route'),
       color: Colors.blue,
-      width: 5,
+      width: 4,
       points: [
         userLocation, // User's current location
         destinationMarker.value.position, // Updated destination
@@ -96,13 +102,12 @@ class HomeController extends GetxController {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey,
       PointLatLng(userLocation.latitude, userLocation.longitude),
-      PointLatLng(destinationMarker.value.position.latitude,
-          destinationMarker.value.position.longitude),
+      PointLatLng(destination.value.latitude, destination.value.longitude),
     );
     if (result.points.isNotEmpty) {
-      result.points.forEach((point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     }
     return polylineCoordinates;
   }
