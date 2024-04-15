@@ -28,8 +28,8 @@ class _CarPoolHomeState extends State<CarPoolHome> {
     PolylineId id = const PolylineId('route');
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.blue,
-      width: 5,
+      color: Colors.purple,
+      width: 4,
       points: points!,
     );
     setState(() {
@@ -87,12 +87,6 @@ class _CarPoolHomeState extends State<CarPoolHome> {
             child: searchField(),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {});
-        },
-        child: const Icon(Icons.refresh),
       ),
     );
   }
@@ -177,6 +171,7 @@ class _CarPoolHomeState extends State<CarPoolHome> {
                   ),
                   onSubmitted: (value) {
                     makeSuggestion(input: value);
+                    setState(() {});
                   },
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:some_ride/core/shared/widgets/export.dart';
+
 import '../../../database/firebase_constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +71,12 @@ class ProfileController extends GetxController {
       imageUrl = await referenceImageToUpload.getDownloadURL();
       db.collection('users').doc(user.id).update({'imagePath': imageUrl});
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      errorSnackBar(
+        duration: const Duration(seconds: 2),
+        icon: Icons.error,
+        title: "Error Saving",
+        text: "There is nothing to save",
+      );
     }
   }
 
