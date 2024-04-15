@@ -1,10 +1,13 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/features/authentication/models/user_model.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
+import 'package:some_ride/features/profile/controllers/profile_controller.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomeView extends GetView<ControllerHome> {
@@ -12,29 +15,41 @@ class HomeView extends GetView<ControllerHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Container(
-            decoration: BoxDecoration(color: Colors.grey[200]),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                buildHeader(context),
-                buildAvailableCars(context),
-                buildTopDeals(context),
-                buildTopDealers(context),
-              ],
-            ),
-          ),
-        ),
-      ),
+    final newController = Get.find<ProfileController>();
+    return FutureBuilder(
+      future: newController.data,
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            UserModel userModel = snapshot.data as UserModel;
+            return Container(
+              color: Colors.white,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        buildHeader(context, userModel.imagePath.toString()),
+                        buildAvailableCars(context),
+                        buildTopDeals(context),
+                        buildTopDealers(context),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+        return const LinearProgressIndicator();
+      }),
     );
   }
 
-  Widget buildHeader(BuildContext context) {
+  Widget buildHeader(BuildContext context, String image) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
@@ -47,7 +62,7 @@ class HomeView extends GetView<ControllerHome> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildAppBar(context),
+          _buildAppBar(context, image),
           const SizedBox(height: 22),
           CarImagesWidget(images: controller.displayCar.images),
           Padding(
@@ -89,57 +104,60 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  Widget _buildAppBar(BuildContext context, String imagePath) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 90,
-            child: Stack(
-              children: [
-                CircularStepProgressIndicator(
-                  padding: 0,
-                  currentStep: 78,
-                  totalSteps: 100,
-                  selectedStepSize: 4,
-                  width: 80,
-                  height: 80,
-                  startingAngle: 2.3,
-                  selectedColor: Colors.yellow[600],
-                  unselectedColor: Colors.white,
-                  roundedCap: (_, __) => true,
-                  child: const Center(
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundImage:
-                          AssetImage("assets/images/users/passport.jpg"),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  right: 0,
-                  child: badges.Badge(
-                    shape: badges.BadgeShape.square,
-                    animationType: badges.BadgeAnimationType.scale,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 6, vertical: 2.2),
-                    borderSide: const BorderSide(color: Colors.white, width: 2),
-                    badgeColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(13),
-                    elevation: 0,
-                    badgeContent: Text(
-                      "Gold",
-                      style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 12,
+          GestureDetector(
+            onTap: () => Get.toNamed('/profile'),
+            child: SizedBox(
+              width: 90,
+              child: Stack(
+                children: [
+                  CircularStepProgressIndicator(
+                    padding: 0,
+                    currentStep: 78,
+                    totalSteps: 100,
+                    selectedStepSize: 4,
+                    width: 80,
+                    height: 80,
+                    startingAngle: 2.3,
+                    selectedColor: Colors.yellow[600],
+                    unselectedColor: Colors.white,
+                    roundedCap: (_, __) => true,
+                    child: Center(
+                      child: CircleAvatar(
+                        maxRadius: 30,
+                        backgroundImage: NetworkImage(imagePath),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    bottom: 10,
+                    right: 0,
+                    child: badges.Badge(
+                      shape: badges.BadgeShape.square,
+                      animationType: badges.BadgeAnimationType.scale,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2.2),
+                      borderSide:
+                          const BorderSide(color: Colors.white, width: 2),
+                      badgeColor: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(13),
+                      elevation: 0,
+                      badgeContent: Text(
+                        "Gold",
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Row(
