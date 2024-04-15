@@ -244,7 +244,15 @@ class Profile extends GetView<ProfileController> {
                             const SizedBox(height: 20),
                             Row(
                               children: [
-                                const Icon(Icons.group, size: 20),
+                                userModel.userType == 'Customer'
+                                    ? const Icon(
+                                        Icons.shopping_cart,
+                                        size: 20,
+                                      )
+                                    : const Icon(
+                                        Icons.car_rental,
+                                        size: 20,
+                                      ),
                                 const SizedBox(width: 40),
                                 TextWidget(
                                   size: 14,
