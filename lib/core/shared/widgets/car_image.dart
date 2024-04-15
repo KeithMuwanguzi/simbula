@@ -43,7 +43,7 @@ class CarImagesWidget extends StatelessWidget {
   }
 
   Widget buildImagesPage(ValueBuilderUpdateCallback<int> updateFn) {
-    return Container(
+    return SizedBox(
       height: 150,
       child: PageView(
         physics: const BouncingScrollPhysics(),

@@ -18,7 +18,7 @@ class HomeLanding extends StatelessWidget {
       body: Obx(() {
         switch (controller.currentPage.value) {
           case 0:
-            return TogglePages();
+            return const TogglePages();
           case 1:
             return const Favorite();
           case 2:

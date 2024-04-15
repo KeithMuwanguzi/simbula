@@ -5,6 +5,5 @@ class NewPassBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<NewPasswordController>(() => NewPasswordController());
-    ;
   }
 }
