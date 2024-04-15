@@ -80,19 +80,7 @@ class ProfileController extends GetxController {
     return userData;
   }
 
-  void pushBioToDb(UserModel user, String bio) async {
-    await db.collection('users').doc(user.id).update({'about': bio});
-  }
-
   void pushNameToDb(UserModel user, String name) async {
     await db.collection('users').doc(user.id).update({'fullName': name});
-  }
-
-  void pushLocationToDb(UserModel user, String locatio) async {
-    await db.collection('users').doc(user.id).update({'location': locatio});
-  }
-
-  void pushContactToDb(UserModel user, String contact) async {
-    await db.collection('users').doc(user.id).update({'contact': contact});
   }
 }

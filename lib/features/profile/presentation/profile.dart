@@ -9,12 +9,11 @@ import 'package:some_ride/features/authentication/models/user_model.dart';
 import 'package:some_ride/features/authentication/services/firebase_services.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends GetView<ProfileController> {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -301,7 +300,7 @@ class Profile extends StatelessWidget {
   }
 
   userCoverPhoto(ProfileController controller) => Container(
-        color: Colors.grey,
+        color: Colors.grey[400],
         child: Image.network(
           'https://picsum.photos/200/300/?blur',
           height: 180,
