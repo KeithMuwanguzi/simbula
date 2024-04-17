@@ -1,22 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:some_ride/core/shared/widgets/number_format.dart';
+import 'package:some_ride/features/home/model/car.dart';
 
 import '../../../core/shared/widgets/export.dart';
 
 class SelectedCar extends StatelessWidget {
-  final String brand;
-  final String model;
-  final double price;
-  final String condition;
-  final List<String> images;
-  const SelectedCar({
-    super.key,
-    required this.brand,
-    required this.model,
-    required this.price,
-    required this.condition,
-    required this.images,
-  });
+  final Car car;
+  const SelectedCar({super.key, required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -31,31 +24,6 @@ class SelectedCar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               buildHeader(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 15,
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'SPECIFICATIONS',
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // buildSpecs("Condition", condition),
-                        // buildSpecs("Model", model),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
@@ -119,31 +87,132 @@ class SelectedCar extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 22),
-          CarImagesWidget(images: images),
+          CarImagesWidget(images: car.images),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CarNameWidget(
-                  model: model,
-                  brand: brand,
+                  model: car.model,
+                  brand: car.brand,
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildPeriodContainer(
-                    context, "12 Months", "10% Off", "\$$price", true),
-                buildPeriodContainer(
-                    context, "6 Months", "5% Off", "\$${price / 2}", false),
-                buildPeriodContainer(
-                    context, "3 Months", "2% Off", "\$${price / 4}", false),
+                buildSpecs(
+                  context,
+                  'Engine',
+                  Icons.engineering,
+                  car.engine,
+                ),
+                buildSpecs(
+                  context,
+                  'Max Speed',
+                  Icons.speed,
+                  '${car.maxSpeed.toString()} KPH',
+                ),
+                buildSpecs(
+                  context,
+                  'Transmission',
+                  Icons.mediation,
+                  car.transmission,
+                ),
+                buildSpecs(
+                  context,
+                  'Recharge',
+                  car.recharge ? Icons.electric_bolt : Icons.gas_meter,
+                  car.recharge ? 'Electric' : 'Fuel',
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              children: [
+                Text(
+                  'Price: ',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  formatNumber(car.price),
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[800],
+                  ),
+                ),
+                Text(
+                  ' @ ${car.condition}',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.blue[800]!,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Book Later',
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.blue[800]!,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Order Now',
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -152,71 +221,32 @@ class SelectedCar extends StatelessWidget {
     );
   }
 
-  buildPeriodContainer(context, String s, String t, String u, bool selected) {
+  buildSpecs(context, String s, IconData icon, String u) {
     return Container(
-      width: MediaQuery.of(context).size.width / 3.5,
+      width: MediaQuery.of(context).size.width / 4.5,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: selected ? Colors.blue[800] : Colors.white,
+        color: Colors.grey[200],
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: selected ? Colors.blue[800]! : Colors.grey[300]!,
+          color: Colors.grey[300]!,
         ),
       ),
       child: Column(
         children: [
-          Text(
-            s,
-            style: GoogleFonts.roboto(
-              fontSize: 15,
-              color: selected ? Colors.grey[200] : Colors.grey,
-            ),
+          Icon(
+            icon,
+            size: 20,
           ),
-          const SizedBox(height: 10),
-          Text(
-            t,
-            style: GoogleFonts.roboto(
-              fontSize: 20,
-              color: selected ? Colors.white : Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            u,
-            style: GoogleFonts.roboto(
-              fontSize: 15,
-              color: selected ? Colors.grey[200] : Colors.blue[800],
-            ),
+          const SizedBox(height: 5),
+          TextWidget(text: s, size: 12),
+          TextWidget(
+            text: u,
+            size: 10,
+            color: Colors.black,
           ),
         ],
       ),
     );
   }
-
-  // buildSpecs(String s, String condition) {
-  //   Container(
-  //     color: Colors.white,
-  //     padding: const EdgeInsets.symmetric(vertical: 10),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Text(
-  //           s,
-  //           style: GoogleFonts.roboto(
-  //             fontSize: 15,
-  //             color: Colors.black,
-  //           ),
-  //         ),
-  //         Text(
-  //           condition,
-  //           style: GoogleFonts.roboto(
-  //             fontSize: 15,
-  //             color: Colors.grey,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

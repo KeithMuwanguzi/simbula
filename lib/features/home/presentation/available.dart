@@ -17,6 +17,7 @@ class AvailableCars extends GetView<ControllerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Column(
           children: [
@@ -34,11 +35,7 @@ class AvailableCars extends GetView<ControllerHome> {
                   return GestureDetector(
                     onTap: () => Get.to(
                       () => SelectedCar(
-                        brand: car.brand,
-                        model: car.model,
-                        price: car.price,
-                        condition: car.condition,
-                        images: car.images,
+                        car: car,
                       ),
                     ),
                     child: Padding(

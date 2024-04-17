@@ -325,11 +325,7 @@ class HomeView extends GetView<ControllerHome> {
                 .map((car) => GestureDetector(
                     onTap: () => Get.to(
                           () => SelectedCar(
-                            brand: car.brand,
-                            model: car.model,
-                            price: car.price,
-                            condition: car.condition,
-                            images: car.images,
+                            car: car,
                           ),
                         ),
                     child:
