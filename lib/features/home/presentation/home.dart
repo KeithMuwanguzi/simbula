@@ -31,7 +31,14 @@ class HomeView extends GetView<ControllerHome> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        buildHeader(context, userModel.imagePath.toString()),
+                        Obx(
+                          () => buildHeader(
+                            context,
+                            newController.profilePath.value == ''
+                                ? userModel.imagePath.toString()
+                                : newController.profilePath.value,
+                          ),
+                        ),
                         buildAvailableCars(context),
                         buildTopDeals(context),
                         buildTopDealers(context),
