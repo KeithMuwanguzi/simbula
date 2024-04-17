@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:some_ride/features/favorites/presentation/fav.dart';
+import 'package:some_ride/features/ongoing/presentation/ongoing.dart';
 import 'package:some_ride/features/home/controllers/home_controller.dart';
 import 'package:some_ride/features/home/presentation/toggle_service.dart';
 import 'package:some_ride/features/offer/presentation/offer.dart';
@@ -20,7 +20,7 @@ class HomeLanding extends StatelessWidget {
           case 0:
             return const TogglePages();
           case 1:
-            return const Favorite();
+            return const OnGoing();
           case 2:
             return const Wallet();
           case 3:

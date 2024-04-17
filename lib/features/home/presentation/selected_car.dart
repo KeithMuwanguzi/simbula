@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/number_format.dart';
-import 'package:some_ride/features/favorites/presentation/fav.dart';
+import 'package:some_ride/features/ongoing/presentation/ongoing.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/model/car.dart';
 
@@ -204,7 +204,7 @@ class SelectedCar extends GetView<ControllerHome> {
                       maxSpeed: car.maxSpeed.toString(),
                       engine: car.engine,
                     );
-                    Get.to(() => const Favorite());
+                    Get.to(() => const OnGoing());
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.3,
