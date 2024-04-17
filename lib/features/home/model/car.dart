@@ -4,6 +4,14 @@ class Car {
   double price;
   String condition;
   List<String> images;
+  String transmission;
 
-  Car(this.brand, this.model, this.price, this.condition, this.images);
+  Car(
+    this.brand,
+    this.model,
+    this.price,
+    this.condition,
+    this.images,
+    this.transmission,
+  );
 }

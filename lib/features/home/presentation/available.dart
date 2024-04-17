@@ -26,13 +26,8 @@ class AvailableCars extends GetView<ControllerHome> {
             const SizedBox(height: 15),
             SizedBox(
               height: MediaQuery.of(context).size.height - 144,
-              child: GridView.builder(
+              child: ListView.builder(
                 itemCount: controller.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
                 itemBuilder: (context, index) {
                   final car = controller.cars[index];
                   return GestureDetector(
@@ -45,7 +40,13 @@ class AvailableCars extends GetView<ControllerHome> {
                         images: car.images,
                       ),
                     ),
-                    child: buildCar(car),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 5,
+                      ),
+                      child: buildCar(context, car),
+                    ),
                   );
                 },
               ),
@@ -56,66 +57,85 @@ class AvailableCars extends GetView<ControllerHome> {
     );
   }
 
-  Container buildCar(Car car) {
+  Container buildCar(BuildContext context, Car car) {
     return Container(
-      // height: 220,
-      width: double.infinity / 2,
-      margin: const EdgeInsets.all(1),
-      padding: const EdgeInsets.all(8),
+      height: MediaQuery.of(context).size.height / 6,
+      width: double.infinity,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.teal[50],
         borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: Colors.teal,
+        ),
       ),
       child: Column(
         children: [
-          Hero(
-            tag: car.model,
-            child: Image.asset(
-              car.images[0],
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                car.model,
-                style: GoogleFonts.roboto(
-                  fontSize: 15,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                car.brand,
-                style: GoogleFonts.roboto(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Per ${car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"}",
-                    style: GoogleFonts.roboto(
-                      fontSize: 9,
-                      color: Colors.grey,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        car.model,
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '\$ ${car.price.toString()}',
-                    style: GoogleFonts.roboto(
-                      fontSize: 10,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        car.brand,
+                        style: GoogleFonts.roboto(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${car.transmission} | ${car.condition}',
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        car.price.toString(),
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: const Color.fromARGB(255, 24, 21, 189),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
+              ),
+              Hero(
+                tag: car.model,
+                child: Image.asset(
+                  car.images[0],
+                  fit: BoxFit.fitWidth,
+                  height: 60,
+                ),
               ),
             ],
           ),

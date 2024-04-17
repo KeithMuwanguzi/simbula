@@ -13,6 +13,7 @@ class CarService {
           "assets/images/cars/land_rover_1.png",
           "assets/images/cars/land_rover_2.png",
         ],
+        'Automatic',
       ),
       Car(
         "Alfa Romeo",
@@ -22,6 +23,7 @@ class CarService {
         [
           "assets/images/cars/alfa_romeo_c4_0.png",
         ],
+        'Automatic',
       ),
       Car(
         "Nissan",
@@ -34,6 +36,7 @@ class CarService {
           "assets/images/cars/nissan_gtr_2.png",
           "assets/images/cars/nissan_gtr_3.png",
         ],
+        'Automatic',
       ),
       Car(
         "Acura",
@@ -45,6 +48,7 @@ class CarService {
           "assets/images/cars/acura_1.png",
           "assets/images/cars/acura_2.png",
         ],
+        'Automatic',
       ),
       Car(
         "Chevrolet",
@@ -56,6 +60,7 @@ class CarService {
           "assets/images/cars/camaro_1.png",
           "assets/images/cars/camaro_2.png",
         ],
+        'Automatic',
       ),
       Car(
         "Ferrari",
@@ -69,6 +74,7 @@ class CarService {
           "assets/images/cars/ferrari_spider_488_3.png",
           "assets/images/cars/ferrari_spider_488_4.png",
         ],
+        'Manual',
       ),
       Car(
         "Ford",
@@ -79,6 +85,7 @@ class CarService {
           "assets/images/cars/ford_0.png",
           "assets/images/cars/ford_1.png",
         ],
+        'Automatic',
       ),
       Car(
         "Fiat",
@@ -89,6 +96,7 @@ class CarService {
           "assets/images/cars/fiat_0.png",
           "assets/images/cars/fiat_1.png",
         ],
+        'Manual',
       ),
       Car(
         "Honda",
@@ -98,6 +106,7 @@ class CarService {
         [
           "assets/images/cars/honda_0.png",
         ],
+        'Automatic',
       ),
       Car(
         "Citroen",
@@ -109,6 +118,7 @@ class CarService {
           "assets/images/cars/citroen_1.png",
           "assets/images/cars/citroen_2.png",
         ],
+        'Automatic',
       ),
     ];
   }
