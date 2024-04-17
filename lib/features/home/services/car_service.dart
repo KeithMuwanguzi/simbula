@@ -6,7 +6,7 @@ class CarService {
       Car(
         "Land Rover",
         "Discovery",
-        2580,
+        1000000,
         "Weekly",
         [
           "assets/images/cars/land_rover_0.png",
@@ -18,7 +18,7 @@ class CarService {
       Car(
         "Alfa Romeo",
         "C4",
-        3580,
+        3200000,
         "Monthly",
         [
           "assets/images/cars/alfa_romeo_c4_0.png",
@@ -28,7 +28,7 @@ class CarService {
       Car(
         "Nissan",
         "GTR",
-        1100,
+        50000,
         "Daily",
         [
           "assets/images/cars/nissan_gtr_0.png",
@@ -41,7 +41,7 @@ class CarService {
       Car(
         "Acura",
         "MDX 2020",
-        2200,
+        1350000,
         "Monthly",
         [
           "assets/images/cars/acura_0.png",
@@ -53,7 +53,7 @@ class CarService {
       Car(
         "Chevrolet",
         "Camaro",
-        3400,
+        600000,
         "Weekly",
         [
           "assets/images/cars/camaro_0.png",
@@ -65,7 +65,7 @@ class CarService {
       Car(
         "Ferrari",
         "Spider 488",
-        4200,
+        5000000,
         "Weekly",
         [
           "assets/images/cars/ferrari_spider_488_0.png",
@@ -79,7 +79,7 @@ class CarService {
       Car(
         "Ford",
         "Focus",
-        2300,
+        200000,
         "Weekly",
         [
           "assets/images/cars/ford_0.png",
@@ -90,7 +90,7 @@ class CarService {
       Car(
         "Fiat",
         "500x",
-        1450,
+        130000,
         "Weekly",
         [
           "assets/images/cars/fiat_0.png",
@@ -101,7 +101,7 @@ class CarService {
       Car(
         "Honda",
         "Civic",
-        900,
+        20000,
         "Daily",
         [
           "assets/images/cars/honda_0.png",
@@ -111,7 +111,7 @@ class CarService {
       Car(
         "Citroen",
         "Picasso",
-        1200,
+        300000,
         "Monthly",
         [
           "assets/images/cars/citroen_0.png",
