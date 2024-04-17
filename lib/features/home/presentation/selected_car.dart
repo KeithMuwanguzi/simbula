@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/number_format.dart';
+import 'package:some_ride/features/favorites/presentation/fav.dart';
+import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/model/car.dart';
 
 import '../../../core/shared/widgets/export.dart';
 
-class SelectedCar extends StatelessWidget {
+class SelectedCar extends GetView<ControllerHome> {
   final Car car;
   const SelectedCar({super.key, required this.car});
 
@@ -192,6 +193,19 @@ class SelectedCar extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
+                  onTap: () {
+                    controller.addCartoDB(
+                      uid: controller.uid,
+                      brand: car.brand,
+                      model: car.model,
+                      price: car.price.toString(),
+                      condition: car.condition,
+                      transmission: car.transmission,
+                      maxSpeed: car.maxSpeed.toString(),
+                      engine: car.engine,
+                    );
+                    Get.to(() => const Favorite());
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     height: 60,

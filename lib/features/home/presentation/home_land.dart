@@ -43,16 +43,16 @@ class HomeLanding extends StatelessWidget {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
+              icon: Icon(Icons.play_arrow),
+              label: 'OnGoing',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet),
               label: 'Wallet',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.local_offer),
-              label: 'Offers',
+              icon: Icon(Icons.history),
+              label: 'History',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
