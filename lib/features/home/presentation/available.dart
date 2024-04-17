@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/core/shared/widgets/number_format.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/model/car.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
@@ -119,7 +120,7 @@ class AvailableCars extends GetView<ControllerHome> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        car.price.toString(),
+                        formatNumber(car.price),
                         style: GoogleFonts.roboto(
                           fontSize: 18,
                           color: const Color.fromARGB(255, 24, 21, 189),

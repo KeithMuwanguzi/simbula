@@ -14,6 +14,9 @@ class CarService {
           "assets/images/cars/land_rover_2.png",
         ],
         'Automatic',
+        270,
+        '2000 CC',
+        false,
       ),
       Car(
         "Alfa Romeo",
@@ -24,6 +27,9 @@ class CarService {
           "assets/images/cars/alfa_romeo_c4_0.png",
         ],
         'Automatic',
+        180,
+        '2000 CC',
+        false,
       ),
       Car(
         "Nissan",
@@ -37,6 +43,9 @@ class CarService {
           "assets/images/cars/nissan_gtr_3.png",
         ],
         'Automatic',
+        180,
+        '1800 CC',
+        false,
       ),
       Car(
         "Acura",
@@ -49,6 +58,9 @@ class CarService {
           "assets/images/cars/acura_2.png",
         ],
         'Automatic',
+        240,
+        '2500 CC',
+        false,
       ),
       Car(
         "Chevrolet",
@@ -61,6 +73,9 @@ class CarService {
           "assets/images/cars/camaro_2.png",
         ],
         'Automatic',
+        180,
+        '1800 CC',
+        false,
       ),
       Car(
         "Ferrari",
@@ -75,6 +90,9 @@ class CarService {
           "assets/images/cars/ferrari_spider_488_4.png",
         ],
         'Manual',
+        360,
+        '3000 CC',
+        true,
       ),
       Car(
         "Ford",
@@ -86,6 +104,9 @@ class CarService {
           "assets/images/cars/ford_1.png",
         ],
         'Automatic',
+        250,
+        '2200 CC',
+        false,
       ),
       Car(
         "Fiat",
@@ -97,6 +118,9 @@ class CarService {
           "assets/images/cars/fiat_1.png",
         ],
         'Manual',
+        180,
+        '1500 CC',
+        false,
       ),
       Car(
         "Honda",
@@ -107,6 +131,9 @@ class CarService {
           "assets/images/cars/honda_0.png",
         ],
         'Automatic',
+        180,
+        '1500 CC',
+        false,
       ),
       Car(
         "Citroen",
@@ -119,6 +146,9 @@ class CarService {
           "assets/images/cars/citroen_2.png",
         ],
         'Automatic',
+        180,
+        '2000 CC',
+        false,
       ),
     ];
   }

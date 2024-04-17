@@ -5,6 +5,9 @@ class Car {
   String condition;
   List<String> images;
   String transmission;
+  int maxSpeed;
+  String engine;
+  bool recharge;
 
   Car(
     this.brand,
@@ -13,5 +16,8 @@ class Car {
     this.condition,
     this.images,
     this.transmission,
+    this.maxSpeed,
+    this.engine,
+    this.recharge,
   );
 }
