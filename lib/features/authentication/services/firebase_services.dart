@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
@@ -104,13 +104,34 @@ class AuthController extends GetxController {
       required String gender,
       required String userType}) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      Get.dialog(
+        const AlertDialog(
+          title: Text('Loading'),
+          actions: [
+            Row(
+              children: [
+                CircularProgressIndicator(),
+                Text('Registering your account'),
+              ],
+            )
+          ],
+        ),
+      );
+
+      DatabaseReference userRef =
+          FirebaseDatabase.instance.ref().child('users').child(uid);
+      Map userData = {
+        'id': uid,
         'name': name,
         'email': email,
         'phoneNumber': phoneNumber,
         'gender': gender,
         'userType': userType,
-      });
+        'imagePath': '',
+      };
+
+      await userRef.set(userData);
+      Get.back();
     } catch (e) {
       errorSnackBar(
         duration: const Duration(seconds: 2),

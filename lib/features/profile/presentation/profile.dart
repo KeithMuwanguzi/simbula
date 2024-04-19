@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:some_ride/core/shared/widgets/custombutton.dart';
 import 'package:some_ride/core/shared/widgets/textwidget.dart';
-import 'package:some_ride/features/authentication/models/user_model.dart';
 import 'package:some_ride/features/authentication/services/firebase_services.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
 
@@ -15,6 +14,12 @@ class Profile extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          controller.pushImageToDb();
+        },
+        child: const Icon(Icons.save),
+      ),
       appBar: AppBar(
         title: const Text('Profile'),
         actions: [
@@ -78,36 +83,31 @@ class Profile extends GetView<ProfileController> {
       // ignore: prefer_const_constructors
       body: ListView(
         children: [
-          FutureBuilder(
-            future: controller.data,
-            builder: ((context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  UserModel userModel = snapshot.data as UserModel;
-                  controller.nameTemp.value = userModel.name.toString();
-                  controller.profilePath.value = userModel.imagePath.toString();
-                  controller.profileName.value = userModel.name.toString();
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
-                        children: [
-                          userCoverPhoto(controller),
-                          Positioned(
-                            top: 100,
-                            child:
-                                userProfilePic(controller, context, userModel),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 5,
-                            child: IconButton(
-                              icon: const Icon(Icons.edit,
-                                  size: 20, color: Colors.white),
-                              onPressed: () {
-                                Get.bottomSheet(Container(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(50, 150, 50, 10),
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.white,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Stack(
+                      children: [
+                        userProfilePic(controller, context),
+                        Positioned(
+                          bottom: 10,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.bottomSheet(
+                                Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(20, 20, 20, 20),
                                   color: Colors.grey,
@@ -118,7 +118,6 @@ class Profile extends GetView<ProfileController> {
                                         onTap: () {
                                           controller
                                               .pickImage(ImageSource.gallery);
-                                          Get.back();
                                         },
                                         child: const Icon(
                                           Icons.photo,
@@ -133,7 +132,6 @@ class Profile extends GetView<ProfileController> {
                                         onTap: () {
                                           controller
                                               .pickImage(ImageSource.camera);
-                                          Get.back();
                                         },
                                         child: const Icon(
                                           Icons.camera_alt,
@@ -143,165 +141,85 @@ class Profile extends GetView<ProfileController> {
                                       ),
                                     ],
                                   ),
-                                ));
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 80),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 20, 30, 5),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                const Icon(Icons.person, size: 20),
-                                const SizedBox(width: 40),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Obx(() => TextWidget(
-                                          size: 14,
-                                          text: controller.nameTemp.value,
-                                        )),
-                                    TextWidget(
-                                      size: 12,
-                                      text: '${controller.user.email}',
-                                    ),
-                                  ],
                                 ),
-                                Expanded(child: Container()),
-                                const SizedBox(width: 10),
-                                IconButton(
-                                  onPressed: () {
-                                    Get.bottomSheet(Container(
-                                      height:
-                                          (MediaQuery.of(context).size.height) /
-                                              4,
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 20, 20, 20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          const TextWidget(
-                                            size: 15,
-                                            text: 'Edit Full Name',
-                                          ),
-                                          const SizedBox(height: 10),
-                                          TextField(
-                                            controller: controller.nameText,
-                                            decoration: InputDecoration(
-                                              hintText: "Your Fullname",
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                  color: Colors.white,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderSide: const BorderSide(
-                                                  color: Colors.white,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          CustomButton(
-                                              buttonText: 'Save',
-                                              buttonFunction: () {
-                                                if (controller
-                                                        .nameText.text.length >
-                                                    25) {
-                                                  Get.snackbar('Error',
-                                                      'Name is too long');
-                                                } else {
-                                                  controller.nameTemp.value =
-                                                      controller.nameText.text;
-                                                  controller.pushNameToDb(
-                                                      userModel,
-                                                      controller.nameText.text);
-                                                  controller.nameText.clear();
-                                                  controller.profileName.value =
-                                                      controller.nameText.text;
-                                                }
-                                              })
-                                        ],
-                                      ),
-                                    ));
-                                  },
-                                  icon: const Icon(Icons.edit, size: 15),
-                                ),
-                              ],
+                              );
+                            },
+                            child: const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.mode,
+                                color: Colors.black,
+                              ),
                             ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                userModel.userType == 'Customer'
-                                    ? const Icon(
-                                        Icons.shopping_cart,
-                                        size: 20,
-                                      )
-                                    : const Icon(
-                                        Icons.car_rental,
-                                        size: 20,
-                                      ),
-                                const SizedBox(width: 40),
-                                TextWidget(
-                                  size: 14,
-                                  text: '${userModel.userType}',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                userModel.gender == 'Male'
-                                    ? const Icon(Icons.male, size: 20)
-                                    : const Icon(Icons.female, size: 20),
-                                const SizedBox(width: 40),
-                                TextWidget(
-                                  size: 14,
-                                  text: '${userModel.gender}',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                const Icon(Icons.phone, size: 20),
-                                const SizedBox(width: 40),
-                                TextWidget(
-                                  size: 14,
-                                  text: '${userModel.phoneNumber}',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 120),
-                            CustomButton(
-                              buttonText: 'Save Changes',
-                              buttonFunction: () {
-                                controller.pushImageToDb(userModel);
-                                controller.resetIsSelected();
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-                }
-              }
-              return const LinearProgressIndicator();
-            }),
-          )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Obx(
+                    () => richText(
+                      text1: "Name: ",
+                      text2: controller.name.value,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Obx(
+                    () => richText(
+                      text1: "Email: ",
+                      text2: controller.email.value,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Obx(
+                    () => richText(
+                      text1: "UserType: ",
+                      text2: controller.userType.value,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Obx(
+                    () => richText(
+                      text1: "Gender: ",
+                      text2: controller.gender.value,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Obx(
+                    () => richText(
+                      text1: "Contact: ",
+                      text2: controller.phoneNumber.value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  RichText richText({required text1, required text2}) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: text1,
+            style: GoogleFonts.roboto(
+              fontSize: 13,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          TextSpan(
+            text: text2,
+            style: GoogleFonts.roboto(
+              fontSize: 14,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
     );
@@ -317,23 +235,21 @@ class Profile extends GetView<ProfileController> {
         ),
       );
 
-  userProfilePic(
-          ProfileController controller, BuildContext context, UserModel user) =>
-      Obx(
+  userProfilePic(ProfileController controller, BuildContext context) => Obx(
         () => controller.selectedImagePath != ''
             ? CircleAvatar(
                 backgroundImage: FileImage(
                   File(controller.selectedImagePath.value),
                 ),
-                radius: 80,
+                radius: 60,
               )
-            : controller.selectedImagePath == ''
-                ? user.imagePath == ''
+            : controller.selectedImagePath.value == ''
+                ? controller.profilePath.value == ''
                     ? EmptyAvator(controller: controller)
                     : CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(user.imagePath.toString()),
-                        radius: 80,
+                        backgroundImage: NetworkImage(
+                            controller.profilePath.value.toString()),
+                        radius: 60,
                       )
                 : EmptyAvator(controller: controller),
       );
@@ -351,38 +267,40 @@ class EmptyAvator extends StatelessWidget {
       radius: 80,
       child: InkWell(
         onTap: () {
-          Get.bottomSheet(Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            color: Colors.grey,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    controller.pickImage(ImageSource.gallery);
-                  },
-                  child: const Icon(
-                    Icons.photo,
-                    size: 40,
-                    color: Colors.white,
+          Get.bottomSheet(
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              color: Colors.grey,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      controller.pickImage(ImageSource.gallery);
+                    },
+                    child: const Icon(
+                      Icons.photo,
+                      size: 40,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 100,
-                ),
-                InkWell(
-                  onTap: () {
-                    controller.pickImage(ImageSource.camera);
-                  },
-                  child: const Icon(
-                    Icons.camera_alt,
-                    size: 40,
-                    color: Colors.white,
+                  const SizedBox(
+                    width: 100,
                   ),
-                ),
-              ],
+                  InkWell(
+                    onTap: () {
+                      controller.pickImage(ImageSource.camera);
+                    },
+                    child: const Icon(
+                      Icons.camera_alt,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ));
+          );
         },
         child: const Icon(
           Icons.add_a_photo,

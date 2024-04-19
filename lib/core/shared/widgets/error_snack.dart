@@ -20,3 +20,23 @@ errorSnackBar(
     ),
   );
 }
+
+successSnackBar(
+    {required Duration duration,
+    required IconData icon,
+    required String title,
+    required String text}) {
+  Get.snackbar(
+    title,
+    text,
+    snackPosition: SnackPosition.BOTTOM,
+    isDismissible: false,
+    backgroundColor: Colors.green,
+    colorText: Colors.white,
+    duration: duration,
+    icon: Icon(
+      icon,
+      color: Colors.white,
+    ),
+  );
+}

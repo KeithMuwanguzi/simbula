@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 
 import '../../../database/firebase_constants.dart';
@@ -8,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../features/authentication/models/user_model.dart';
-
 class ProfileController extends GetxController {
   static ProfileController instance = Get.find();
   var data;
@@ -17,21 +16,23 @@ class ProfileController extends GetxController {
   var isSelected = false.obs;
   var isSaved = false.obs;
   String imageUrl = '';
-  var nameTemp = ''.obs;
-  final bioText = TextEditingController();
-  final nameText = TextEditingController();
-  final locationText = TextEditingController();
-  final contactText = TextEditingController();
-  var bioTemp = ''.obs;
+  var name = ''.obs;
+  var email = ''.obs;
+  var phoneNumber = ''.obs;
   var profilePath = ''.obs;
-  var profileName = ''.obs;
+  var gender = ''.obs;
+  var userType = ''.obs;
   final user = auth.currentUser!;
-  var userData;
+  late DatabaseReference userRef;
 
   @override
   void onInit() {
     super.onInit();
-    data = getUserData(user.email);
+    userRef = FirebaseDatabase.instance.ref().child('users').child(user.uid);
+    getUserData();
+    userRef.onValue.listen((event) {
+      profilePath.value = (event.snapshot.value as Map)['imagePath'];
+    });
   }
 
   toggleSelection() {
@@ -61,7 +62,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  void pushImageToDb(UserModel user) async {
+  void pushImageToDb() async {
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirProfiles = referenceRoot.child('profiles');
     Reference referenceImageToUpload =
@@ -69,7 +70,24 @@ class ProfileController extends GetxController {
     try {
       await referenceImageToUpload.putFile(File(selectedImagePath.value));
       imageUrl = await referenceImageToUpload.getDownloadURL();
-      db.collection('users').doc(user.id).update({'imagePath': imageUrl});
+      userRef
+          .update({'imagePath': imageUrl})
+          .then(
+            (value) => successSnackBar(
+              duration: const Duration(seconds: 2),
+              icon: Icons.check,
+              title: 'Success',
+              text: 'New Profile Picture loaded successfully',
+            ),
+          )
+          .onError(
+            (error, stackTrace) => errorSnackBar(
+              duration: const Duration(seconds: 2),
+              icon: Icons.error,
+              title: 'Error Occured',
+              text: 'An error Occured, select a new image and try again',
+            ),
+          );
     } catch (e) {
       errorSnackBar(
         duration: const Duration(seconds: 2),
@@ -80,14 +98,23 @@ class ProfileController extends GetxController {
     }
   }
 
-  getUserData(email) async {
-    final snapshot =
-        await db.collection('users').where('email', isEqualTo: email).get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
-    return userData;
-  }
-
-  void pushNameToDb(UserModel user, String name) async {
-    await db.collection('users').doc(user.id).update({'fullName': name});
+  getUserData() async {
+    userRef.once().then((snap) {
+      if (snap.snapshot.value != null) {
+        name.value = (snap.snapshot.value as Map)['name'];
+        email.value = (snap.snapshot.value as Map)['email'];
+        phoneNumber.value = (snap.snapshot.value as Map)['phoneNumber'];
+        userType.value = (snap.snapshot.value as Map)['userType'];
+        gender.value = (snap.snapshot.value as Map)['gender'];
+        return {};
+      } else {
+        errorSnackBar(
+          duration: const Duration(seconds: 2),
+          icon: Icons.error,
+          title: 'Error Occured',
+          text: 'Data failed to load',
+        );
+      }
+    });
   }
 }
