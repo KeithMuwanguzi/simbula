@@ -83,10 +83,16 @@ class Profile extends GetView<ProfileController> {
       // ignore: prefer_const_constructors
       body: ListView(
         children: [
+          Obx(
+            () => controller.name.value == ""
+                ? const LinearProgressIndicator()
+                : userProfilePageCode(context),
+          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(50, 150, 50, 10),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
             child: Container(
-              padding: const EdgeInsets.all(30),
+              height: MediaQuery.of(context).size.height / 2,
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(20),
@@ -97,130 +103,224 @@ class Profile extends GetView<ProfileController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        userProfilePic(controller, context),
-                        Positioned(
-                          bottom: 5,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.bottomSheet(
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                                  color: Colors.grey,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          controller
-                                              .pickImage(ImageSource.gallery);
-                                        },
-                                        child: const Icon(
-                                          Icons.photo,
-                                          size: 30,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 100,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          controller
-                                              .pickImage(ImageSource.camera);
-                                        },
-                                        child: const Icon(
-                                          Icons.camera_alt,
-                                          size: 40,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              child: Icon(
-                                Icons.mode,
-                                color: Colors.black,
-                              ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.person,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Username',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    controller.name.value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.mail,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Email Address',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    controller.email.value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      controller.gender.value == 'Female'
+                          ? const Icon(
+                              Icons.female,
+                              size: 12,
+                            )
+                          : const Icon(
+                              Icons.male,
+                              size: 12,
                             ),
-                          ),
-                        )
-                      ],
+                      const SizedBox(width: 5),
+                      Text(
+                        'Gender',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    controller.gender.value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  Obx(
-                    () => richText(
-                      text1: "Name: ",
-                      text2: controller.name.value,
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      controller.userType.value == 'Customer'
+                          ? const Icon(
+                              Icons.groups,
+                              size: 12,
+                            )
+                          : const Icon(
+                              Icons.car_crash,
+                              size: 12,
+                            ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'UserType',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    controller.userType.value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Obx(
-                    () => richText(
-                      text1: "Email: ",
-                      text2: controller.email.value,
-                    ),
+                  const SizedBox(height: 25),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.groups,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Contact',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  Obx(
-                    () => richText(
-                      text1: "UserType: ",
-                      text2: controller.userType.value,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Obx(
-                    () => richText(
-                      text1: "Gender: ",
-                      text2: controller.gender.value,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Obx(
-                    () => richText(
-                      text1: "Contact: ",
-                      text2: controller.phoneNumber.value,
+                  Text(
+                    controller.phoneNumber.value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey,
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  RichText richText({required text1, required text2}) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: text1,
-            style: GoogleFonts.roboto(
-              fontSize: 13,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+  Padding userProfilePageCode(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Container(
+        height: MediaQuery.of(context).size.height / 3.6,
+        padding: const EdgeInsets.only(top: 60, bottom: 0),
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.white,
           ),
-          TextSpan(
-            text: text2,
-            style: GoogleFonts.roboto(
-              fontSize: 14,
-              color: Colors.black,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Stack(
+                children: [
+                  userProfilePic(controller, context),
+                  Positioned(
+                    bottom: 5,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                            color: Colors.grey,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    controller.pickImage(ImageSource.gallery);
+                                  },
+                                  child: const Icon(
+                                    Icons.photo,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    controller.pickImage(ImageSource.camera);
+                                  },
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    size: 40,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.mode,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
