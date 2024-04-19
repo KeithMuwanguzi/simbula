@@ -102,7 +102,7 @@ class Profile extends GetView<ProfileController> {
                       children: [
                         userProfilePic(controller, context),
                         Positioned(
-                          bottom: 10,
+                          bottom: 5,
                           right: 0,
                           child: GestureDetector(
                             onTap: () {
@@ -121,7 +121,7 @@ class Profile extends GetView<ProfileController> {
                                         },
                                         child: const Icon(
                                           Icons.photo,
-                                          size: 40,
+                                          size: 30,
                                           color: Colors.white,
                                         ),
                                       ),

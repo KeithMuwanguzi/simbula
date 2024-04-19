@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
-import 'package:some_ride/features/authentication/models/user_model.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
@@ -15,43 +14,30 @@ class HomeView extends GetView<ControllerHome> {
   @override
   Widget build(BuildContext context) {
     final newController = Get.find<ProfileController>();
-    return FutureBuilder(
-      future: newController.data,
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            UserModel userModel = snapshot.data as UserModel;
-            return Container(
-              color: Colors.white,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Container(
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Obx(
-                          () => buildHeader(
-                            context,
-                            newController.profilePath.value == ''
-                                ? userModel.imagePath.toString()
-                                : newController.profilePath.value,
-                          ),
-                        ),
-                        buildAvailableCars(context),
-                        buildTopDeals(context),
-                        buildTopDealers(context),
-                      ],
-                    ),
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            decoration: BoxDecoration(color: Colors.grey[200]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Obx(
+                  () => buildHeader(
+                    context,
+                    newController.profilePath.value,
                   ),
                 ),
-              ),
-            );
-          }
-        }
-        return const LinearProgressIndicator();
-      }),
+                buildAvailableCars(context),
+                buildTopDeals(context),
+                buildTopDealers(context),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -134,10 +120,15 @@ class HomeView extends GetView<ControllerHome> {
                     unselectedColor: Colors.white,
                     roundedCap: (_, __) => true,
                     child: Center(
-                      child: CircleAvatar(
-                        maxRadius: 30,
-                        backgroundImage: NetworkImage(imagePath),
-                      ),
+                      child: imagePath == ''
+                          ? const CircleAvatar(
+                              maxRadius: 30,
+                              child: Icon(Icons.image),
+                            )
+                          : CircleAvatar(
+                              maxRadius: 30,
+                              backgroundImage: NetworkImage(imagePath),
+                            ),
                     ),
                   ),
                   Positioned(
