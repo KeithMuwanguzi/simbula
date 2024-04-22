@@ -22,17 +22,18 @@ class CustomPasswordFormField extends StatelessWidget {
       obscureText: isVisible,
       validator: validate,
       decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 15),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          suffixIcon: IconButton(
-            onPressed: userFunction,
-            icon: isVisible == true
-                ? const Icon(Icons.visibility)
-                : const Icon(Icons.visibility_off),
-          )),
+        hintText: hintText,
+        hintStyle: const TextStyle(fontSize: 15),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        suffixIcon: IconButton(
+          onPressed: userFunction,
+          icon: isVisible == true
+              ? const Icon(Icons.visibility)
+              : const Icon(Icons.visibility_off),
+        ),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/core/shared/widgets/number_format.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
@@ -167,7 +168,7 @@ class HomeView extends GetView<ControllerHome> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 2, right: 3),
                       child: Text(
-                        "IDR",
+                        "UGX",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,
@@ -175,7 +176,7 @@ class HomeView extends GetView<ControllerHome> {
                       ),
                     ),
                     Text(
-                      "17,7jt",
+                      formatSecondOption(controller.displayCar.price),
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

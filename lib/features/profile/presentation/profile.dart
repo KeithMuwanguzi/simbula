@@ -88,159 +88,6 @@ class Profile extends GetView<ProfileController> {
                 ? const LinearProgressIndicator()
                 : userProfilePageCode(context),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 2,
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.person,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Username',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    controller.name.value,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.mail,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Email Address',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    controller.email.value,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: [
-                      controller.gender.value == 'Female'
-                          ? const Icon(
-                              Icons.female,
-                              size: 12,
-                            )
-                          : const Icon(
-                              Icons.male,
-                              size: 12,
-                            ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Gender',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    controller.gender.value,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: [
-                      controller.userType.value == 'Customer'
-                          ? const Icon(
-                              Icons.groups,
-                              size: 12,
-                            )
-                          : const Icon(
-                              Icons.car_crash,
-                              size: 12,
-                            ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'UserType',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    controller.userType.value,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.groups,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Contact',
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    controller.phoneNumber.value,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
@@ -249,78 +96,236 @@ class Profile extends GetView<ProfileController> {
   Padding userProfilePageCode(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 3.6,
-        padding: const EdgeInsets.only(top: 60, bottom: 0),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.white,
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Stack(
-                children: [
-                  userProfilePic(controller, context),
-                  Positioned(
-                    bottom: 5,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.bottomSheet(
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                            color: Colors.grey,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    controller.pickImage(ImageSource.gallery);
-                                  },
-                                  child: const Icon(
-                                    Icons.photo,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 100,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    controller.pickImage(ImageSource.camera);
-                                  },
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    size: 40,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      child: const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.mode,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+      child: Column(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 3.6,
+            padding: const EdgeInsets.only(top: 60, bottom: 0),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white,
               ),
             ),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      userProfilePic(controller, context),
+                      Positioned(
+                        bottom: 5,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.bottomSheet(
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                color: Colors.grey,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        controller
+                                            .pickImage(ImageSource.gallery);
+                                      },
+                                      child: const Icon(
+                                        Icons.photo,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 100,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        controller
+                                            .pickImage(ImageSource.camera);
+                                      },
+                                      child: const Icon(
+                                        Icons.camera_alt,
+                                        size: 40,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          child: const CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.mode,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            height: MediaQuery.of(context).size.height / 2,
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.person,
+                      size: 12,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Username',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  controller.name.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.mail,
+                      size: 12,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Email Address',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  controller.email.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    controller.gender.value == 'Female'
+                        ? const Icon(
+                            Icons.female,
+                            size: 12,
+                          )
+                        : const Icon(
+                            Icons.male,
+                            size: 12,
+                          ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Gender',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  controller.gender.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    controller.userType.value == 'Customer'
+                        ? const Icon(
+                            Icons.groups,
+                            size: 12,
+                          )
+                        : const Icon(
+                            Icons.car_crash,
+                            size: 12,
+                          ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'UserType',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  controller.userType.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.call,
+                      size: 12,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Contact',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  controller.phoneNumber.value,
+                  style: GoogleFonts.poppins(
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
