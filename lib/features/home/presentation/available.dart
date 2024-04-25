@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
-import 'package:some_ride/core/shared/widgets/number_format.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
-import 'package:some_ride/features/home/model/car.dart';
+import 'package:some_ride/features/home/model/car_model.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
 
 class AvailableCars extends GetView<ControllerHome> {
@@ -22,16 +21,16 @@ class AvailableCars extends GetView<ControllerHome> {
         child: Column(
           children: [
             AppBarWidget(
-              title: "Available Cars(${controller.length})",
+              title: "Available Cars(${controller.carsList.length})",
               isBackButton: true,
             ),
             const SizedBox(height: 15),
             SizedBox(
               height: MediaQuery.of(context).size.height - 144,
               child: ListView.builder(
-                itemCount: controller.length,
+                itemCount: controller.carsList.length,
                 itemBuilder: (context, index) {
-                  final car = controller.cars[index];
+                  final car = controller.carsList[index];
                   return GestureDetector(
                     onTap: () => Get.to(
                       () => SelectedCar(
@@ -55,7 +54,7 @@ class AvailableCars extends GetView<ControllerHome> {
     );
   }
 
-  Container buildCar(BuildContext context, Car car) {
+  Container buildCar(BuildContext context, CarModel car) {
     return Container(
       height: MediaQuery.of(context).size.height / 6,
       width: double.infinity,
@@ -104,7 +103,7 @@ class AvailableCars extends GetView<ControllerHome> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${car.transmission} | ${car.condition}',
+                        '${car.transmission} | ${car.availability}',
                         style: GoogleFonts.roboto(
                           fontSize: 15,
                           color: Colors.grey,
@@ -117,7 +116,7 @@ class AvailableCars extends GetView<ControllerHome> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        formatNumber(car.price),
+                        "UgShs. ${car.price}",
                         style: GoogleFonts.roboto(
                           fontSize: 18,
                           color: const Color.fromARGB(255, 24, 21, 189),
@@ -128,9 +127,9 @@ class AvailableCars extends GetView<ControllerHome> {
                 ],
               ),
               Hero(
-                tag: car.model,
-                child: Image.asset(
-                  car.images[0],
+                tag: car.id,
+                child: Image.network(
+                  car.imageUrl,
                   fit: BoxFit.fitWidth,
                   height: 60,
                 ),

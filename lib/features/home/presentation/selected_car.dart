@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:some_ride/core/shared/widgets/number_format.dart';
-import 'package:some_ride/features/ongoing/presentation/ongoing.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
-import 'package:some_ride/features/home/model/car.dart';
+import 'package:some_ride/features/home/model/car_model.dart';
 
 import '../../../core/shared/widgets/export.dart';
 
 class SelectedCar extends GetView<ControllerHome> {
-  final Car car;
+  final CarModel car;
   const SelectedCar({super.key, required this.car});
 
   @override
@@ -88,7 +86,8 @@ class SelectedCar extends GetView<ControllerHome> {
             ],
           ),
           const SizedBox(height: 22),
-          CarImagesWidget(images: car.images),
+          const CarImagesWidget(
+              images: ['assets/images/cars/alfa_romeo_c4_0.png']),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -109,27 +108,15 @@ class SelectedCar extends GetView<ControllerHome> {
               children: [
                 buildSpecs(
                   context,
-                  'Engine',
-                  Icons.engineering,
-                  car.engine,
-                ),
-                buildSpecs(
-                  context,
                   'Max Speed',
                   Icons.speed,
-                  '${car.maxSpeed.toString()} KPH',
+                  car.maxSpeed.toString(),
                 ),
                 buildSpecs(
                   context,
                   'Transmission',
                   Icons.mediation,
                   car.transmission,
-                ),
-                buildSpecs(
-                  context,
-                  'Recharge',
-                  car.recharge ? Icons.electric_bolt : Icons.gas_meter,
-                  car.recharge ? 'Electric' : 'Fuel',
                 ),
               ],
             ),
@@ -147,7 +134,7 @@ class SelectedCar extends GetView<ControllerHome> {
                   ),
                 ),
                 Text(
-                  formatNumber(car.price),
+                  'UgShs. ${car.price}',
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -155,13 +142,25 @@ class SelectedCar extends GetView<ControllerHome> {
                   ),
                 ),
                 Text(
-                  ' @ ${car.condition}',
+                  ' @ ${car.availability}',
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Owner: ${car.ownerId}',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -193,19 +192,7 @@ class SelectedCar extends GetView<ControllerHome> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    controller.addCartoDB(
-                      uid: controller.uid,
-                      brand: car.brand,
-                      model: car.model,
-                      price: car.price.toString(),
-                      condition: car.condition,
-                      transmission: car.transmission,
-                      maxSpeed: car.maxSpeed.toString(),
-                      engine: car.engine,
-                    );
-                    Get.to(() => const OnGoing());
-                  },
+                  onTap: () {},
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     height: 60,
