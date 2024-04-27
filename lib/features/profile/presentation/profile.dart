@@ -341,6 +341,7 @@ class Profile extends GetView<ProfileController> {
       );
 
   userProfilePic(ProfileController controller, BuildContext context) => Obx(
+        // ignore: unrelated_type_equality_checks
         () => controller.selectedImagePath != ''
             ? CircleAvatar(
                 backgroundImage: FileImage(

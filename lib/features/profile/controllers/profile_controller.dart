@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 class ProfileController extends GetxController {
   static ProfileController instance = Get.find();
+  // ignore: prefer_typing_uninitialized_variables
   var data;
   var selectedImagePath = ''.obs;
   var isSelected = false.obs;
@@ -36,6 +37,7 @@ class ProfileController extends GetxController {
   }
 
   toggleSelection() {
+    // ignore: unrelated_type_equality_checks
     selectedImagePath != ''
         ? isSelected.value = true
         : isSelected.value = false;
