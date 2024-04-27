@@ -23,6 +23,7 @@ class OnGoing extends GetView<ControllerHome> {
           children: [
             const AppBarWidget(
               title: "OnGoing Orders",
+              isBackButton: false,
             ),
             const SizedBox(height: 15),
             SizedBox(
