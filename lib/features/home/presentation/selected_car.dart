@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
@@ -115,6 +116,12 @@ class SelectedCar extends GetView<ControllerHome> {
                 ),
                 buildSpecs(
                   context,
+                  'Plate',
+                  Icons.app_registration,
+                  car.id,
+                ),
+                buildSpecs(
+                  context,
                   'Transmission',
                   Icons.mediation,
                   car.transmission,
@@ -125,15 +132,57 @@ class SelectedCar extends GetView<ControllerHome> {
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Car Owner:',
+              style: GoogleFonts.roboto(
+                fontSize: 13,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               children: [
-                Text(
-                  'Price: ',
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Obx(
+                  () => Text(
+                    '${controller.fetchUserName(car.ownerId)}',
+                    style: GoogleFonts.roboto(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
+                const SizedBox(width: 20),
+                Obx(
+                  () => Text(
+                    '${controller.fetchUserContact(car.ownerId)}',
+                    style: GoogleFonts.roboto(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Price:',
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              children: [
                 Text(
                   'UgShs. ${car.price}',
                   style: GoogleFonts.roboto(
@@ -145,23 +194,12 @@ class SelectedCar extends GetView<ControllerHome> {
                 Text(
                   ' @ ${car.availability}',
                   style: GoogleFonts.roboto(
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text(
-              'Owner: ${car.ownerId}',
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -183,7 +221,7 @@ class SelectedCar extends GetView<ControllerHome> {
                     ),
                     child: Center(
                       child: Text(
-                        'Book Later',
+                        'Wish',
                         style: GoogleFonts.roboto(
                           fontSize: 18,
                           color: Colors.black,
@@ -193,7 +231,10 @@ class SelectedCar extends GetView<ControllerHome> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    controller.placeOrder(car.id, car.ownerId);
+                    Get.back();
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 2.3,
                     height: 60,
@@ -225,7 +266,7 @@ class SelectedCar extends GetView<ControllerHome> {
 
   buildSpecs(context, String s, IconData icon, String u) {
     return Container(
-      width: MediaQuery.of(context).size.width / 4.5,
+      width: MediaQuery.of(context).size.width / 3.5,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.grey[200],
@@ -241,12 +282,14 @@ class SelectedCar extends GetView<ControllerHome> {
             size: 20,
           ),
           const SizedBox(height: 5),
-          TextWidget(text: s, size: 12),
-          TextWidget(
-            text: u,
-            size: 10,
-            color: Colors.black,
-          ),
+          TextWidget(text: s, size: 11),
+          Text(
+            u,
+            style: GoogleFonts.roboto(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+          )
         ],
       ),
     );

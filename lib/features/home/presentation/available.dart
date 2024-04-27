@@ -34,11 +34,13 @@ class AvailableCars extends GetView<ControllerHome> {
                 itemBuilder: (context, index) {
                   final car = carController.carsList[index];
                   return GestureDetector(
-                    onTap: () => Get.to(
-                      () => SelectedCar(
-                        car: car,
-                      ),
-                    ),
+                    onTap: () {
+                      Get.to(
+                        () => SelectedCar(
+                          car: car,
+                        ),
+                      );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10.0,

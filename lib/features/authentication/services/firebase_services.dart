@@ -173,7 +173,6 @@ class AuthController extends GetxController {
           });
         }
         carsList.value = fetchedCars;
-        print(fetchedCars);
       });
     } catch (e) {
       errorSnackBar(
