@@ -29,27 +29,29 @@ class AvailableCars extends GetView<ControllerHome> {
             const SizedBox(height: 15),
             SizedBox(
               height: MediaQuery.of(context).size.height - 144,
-              child: ListView.builder(
-                itemCount: carController.carsList.length,
-                itemBuilder: (context, index) {
-                  final car = carController.carsList[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => SelectedCar(
-                          car: car,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: carController.carsList.length,
+                  itemBuilder: (context, index) {
+                    final car = carController.carsList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => SelectedCar(
+                            car: car,
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 5,
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 5,
+                        child: buildCar(context, car),
                       ),
-                      child: buildCar(context, car),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             )
           ],
