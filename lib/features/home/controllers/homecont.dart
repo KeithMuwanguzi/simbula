@@ -45,20 +45,43 @@ class ControllerHome extends GetxController {
         await _databaseReference
             .child('ongoing_orders')
             .child(uid)
-            .child(carId)
-            .set(carData);
+            .once()
+            .then((snap) {
+          var data = snap.snapshot.value;
+          if (data != null) {
+            errorSnackBar(
+              duration: const Duration(seconds: 10),
+              icon: Icons.error,
+              title: 'Failed to place Order',
+              text: "There is/are existing order(s), Clear to make new order.",
+            );
+          } else {
+            _databaseReference
+                .child('ongoing_orders')
+                .child(uid)
+                .child(carId)
+                .set(carData);
+            _databaseReference
+                .child('ongoing_orders')
+                .child(uid)
+                .child(carId)
+                .update({
+              'isPaid': false,
+            });
 
-        await _databaseReference
-            .child('cars')
-            .child(ownerId)
-            .child(carId)
-            .remove();
-        successSnackBar(
-          duration: const Duration(seconds: 3),
-          icon: Icons.check_rounded,
-          title: 'SUCCESS',
-          text: 'Rented Successfully',
-        );
+            _databaseReference
+                .child('cars')
+                .child(ownerId)
+                .child(carId)
+                .remove();
+            successSnackBar(
+              duration: const Duration(seconds: 3),
+              icon: Icons.check_rounded,
+              title: 'SUCCESS',
+              text: 'Rented Successfully',
+            );
+          }
+        });
       });
     } catch (error) {
       errorSnackBar(

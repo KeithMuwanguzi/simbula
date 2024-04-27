@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/home/model/car_model.dart';
+import 'package:some_ride/features/ongoing/models/ongoing_model.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   final databaseReference = FirebaseDatabase.instance.ref().child('cars');
+  final databaseReferenceOngoing =
+      FirebaseDatabase.instance.ref().child('ongoing_orders');
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late Rx<User?> _firebaseUser;
 
   RxList<CarModel> carsList = <CarModel>[].obs;
+  RxList<CarOnModel> ongoingList = <CarOnModel>[].obs;
 
   @override
   void onReady() {
@@ -173,6 +177,34 @@ class AuthController extends GetxController {
           });
         }
         carsList.value = fetchedCars;
+      });
+
+      databaseReferenceOngoing
+          .child(_auth.currentUser!.uid)
+          .onValue
+          .listen((event) {
+        final List<CarOnModel> fetchCars = [];
+        if (event.snapshot.value != null) {
+          Map<dynamic, dynamic>? onGoingMap =
+              event.snapshot.value as Map<dynamic, dynamic>?;
+          onGoingMap?.forEach((licensePlate, value) {
+            fetchCars.add(
+              CarOnModel(
+                id: value['licensePlate'],
+                ownerId: value['id'],
+                brand: value['brand'],
+                model: value['model'],
+                transmission: value['transmission'],
+                imageUrl: value['imagePath'] ?? "",
+                maxSpeed: value['maxSpeed'],
+                price: value['price'],
+                availability: value['availability'] ?? "",
+                isPaid: value['isPaid'] ?? false,
+              ),
+            );
+          });
+        }
+        ongoingList.value = fetchCars;
       });
     } catch (e) {
       errorSnackBar(
