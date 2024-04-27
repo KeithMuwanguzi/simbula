@@ -210,27 +210,29 @@ class OnGoing extends GetView<OnGoingController> {
                               ],
                             )
                           : Container(),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          height: 40,
-                          width: 110,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey[200],
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey
-                                    .withOpacity(0.5), // Shadow color
-                                spreadRadius: 5, // Spread radius
-                                blurRadius: 7, // Blur radius
-                                offset: const Offset(0, 3), // Offset
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: car.isPaid
-                                ? Text(
+                      Container(
+                        height: 40,
+                        width: 110,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.grey[200],
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.grey.withOpacity(0.5), // Shadow color
+                              spreadRadius: 5, // Spread radius
+                              blurRadius: 7, // Blur radius
+                              offset: const Offset(0, 3), // Offset
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: car.isPaid
+                              ? GestureDetector(
+                                  onTap: () {
+                                    controller.returnOrder(car.id, car.ownerId);
+                                  },
+                                  child: Text(
                                     "RETURN CAR",
                                     style: GoogleFonts.roboto(
                                       fontSize: 16,
@@ -238,8 +240,11 @@ class OnGoing extends GetView<OnGoingController> {
                                       color: const Color.fromARGB(
                                           255, 24, 21, 189),
                                     ),
-                                  )
-                                : Text(
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {},
+                                  child: Text(
                                     "CANCEL",
                                     style: GoogleFonts.roboto(
                                       fontSize: 16,
@@ -248,7 +253,7 @@ class OnGoing extends GetView<OnGoingController> {
                                           255, 24, 21, 189),
                                     ),
                                   ),
-                          ),
+                                ),
                         ),
                       ),
                     ],

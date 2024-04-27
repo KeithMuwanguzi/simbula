@@ -28,12 +28,12 @@ class OnGoingController extends GetxController {
           .then((event) async {
         var carData = event.snapshot.value;
 
-        if (carData != null) {
+        if (carData == null) {
           errorSnackBar(
             duration: const Duration(seconds: 10),
             icon: Icons.error,
-            title: 'Failed to place Order',
-            text: "There is/are existing order(s), Clear to make new order.",
+            title: 'Order Doesn\'t exist',
+            text: "That Order doesn't exist",
           );
         } else {
           _databaseReference
@@ -51,7 +51,7 @@ class OnGoingController extends GetxController {
             duration: const Duration(seconds: 3),
             icon: Icons.check_rounded,
             title: 'SUCCESS',
-            text: 'Rented Successfully',
+            text: 'Removed successfully',
           );
         }
       });

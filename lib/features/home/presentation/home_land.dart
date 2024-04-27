@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:some_ride/features/ongoing/controllers/ongoing_controller.dart';
 import 'package:some_ride/features/ongoing/presentation/ongoing.dart';
 import 'package:some_ride/features/home/controllers/home_controller.dart';
 import 'package:some_ride/features/home/presentation/toggle_service.dart';
@@ -11,6 +12,8 @@ class HomeLanding extends StatelessWidget {
   HomeLanding({super.key});
 
   final HomeController controller = Get.find<HomeController>();
+  final onGoingController =
+      Get.lazyPut<OnGoingController>(() => OnGoingController());
 
   @override
   Widget build(BuildContext context) {
