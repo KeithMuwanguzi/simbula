@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/features/authentication/services/firebase_services.dart';
-import 'package:some_ride/features/home/controllers/homecont.dart';
+import 'package:some_ride/features/ongoing/controllers/ongoing_controller.dart';
 import 'package:some_ride/features/ongoing/models/ongoing_model.dart';
 
-class OnGoing extends GetView<ControllerHome> {
+class OnGoing extends GetView<OnGoingController> {
   final bool isBackAvailable;
   const OnGoing({
     super.key,
@@ -159,7 +159,25 @@ class OnGoing extends GetView<ControllerHome> {
                           ? Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.dialog(
+                                      AlertDialog(
+                                        title: const Text('CAR PAYMENT'),
+                                        content: const Text(
+                                            'Payment Methods are yet to be added, for the meantime, please pay cash to the owner on car delivery. Sorry for any inconveniences. Thank you'),
+                                        actions: [
+                                          inAppButton(car, () {}, 'Pay Cash'),
+                                          const SizedBox(width: 35),
+                                          TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: const Text('Close'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                   child: Container(
                                     height: 40,
                                     width: 110,
@@ -168,11 +186,10 @@ class OnGoing extends GetView<ControllerHome> {
                                       color: Colors.grey[200],
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey
-                                              .withOpacity(0.5), // Shadow color
-                                          spreadRadius: 5, // Spread radius
-                                          blurRadius: 7, // Blur radius
-                                          offset: const Offset(0, 3), // Offset
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: const Offset(0, 3),
                                         ),
                                       ],
                                     ),
@@ -249,6 +266,38 @@ class OnGoing extends GetView<ControllerHome> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  GestureDetector inAppButton(CarOnModel car, onTap, text) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 40,
+        width: 110,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.grey[200],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5), // Shadow color
+              spreadRadius: 5, // Spread radius
+              blurRadius: 7, // Blur radius
+              offset: const Offset(0, 3), // Offset
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: GoogleFonts.roboto(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 24, 21, 189),
+            ),
+          ),
+        ),
       ),
     );
   }
