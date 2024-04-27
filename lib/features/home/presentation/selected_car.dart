@@ -86,8 +86,9 @@ class SelectedCar extends GetView<ControllerHome> {
             ],
           ),
           const SizedBox(height: 22),
-          const CarImagesWidget(
-              images: ['assets/images/cars/alfa_romeo_c4_0.png']),
+          CarImageWidget(
+            image: car.imageUrl,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(

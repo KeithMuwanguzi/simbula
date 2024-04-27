@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/core/shared/widgets/number_format.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
+import 'package:some_ride/features/home/presentation/available.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -314,11 +315,9 @@ class HomeView extends GetView<ControllerHome> {
             scrollDirection: Axis.horizontal,
             children: controller.cars
                 .map((car) => GestureDetector(
-                    // onTap: () => Get.to(
-                    //       () => SelectedCar(
-                    //         car: car,
-                    //       ),
-                    //     ),
+                    onTap: () => Get.to(
+                          () => const AvailableCars(),
+                        ),
                     child:
                         buildCar(context, car, controller.cars.indexOf(car))))
                 .toList(),

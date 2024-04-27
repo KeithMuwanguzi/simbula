@@ -7,5 +7,6 @@ export 'package:some_ride/core/shared/widgets/dealer_widget.dart';
 export 'package:some_ride/core/shared/widgets/car_widget.dart';
 export 'package:some_ride/core/shared/widgets/car_name_widget.dart';
 export 'package:some_ride/core/shared/widgets/car_image.dart';
+export 'package:some_ride/core/shared/widgets/image_car.dart';
 export 'package:some_ride/core/shared/widgets/app_bar_widget.dart';
 export 'package:some_ride/core/shared/widgets/error_snack.dart';
