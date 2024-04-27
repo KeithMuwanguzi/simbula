@@ -4,7 +4,7 @@ import 'package:some_ride/features/ongoing/controllers/ongoing_controller.dart';
 import 'package:some_ride/features/ongoing/presentation/ongoing.dart';
 import 'package:some_ride/features/home/controllers/home_controller.dart';
 import 'package:some_ride/features/home/presentation/toggle_service.dart';
-import 'package:some_ride/features/offer/presentation/offer.dart';
+import 'package:some_ride/features/history/presentation/history.dart';
 import 'package:some_ride/features/profile/presentation/profile.dart';
 import 'package:some_ride/features/wallet/presentation/wallet.dart';
 
@@ -27,7 +27,7 @@ class HomeLanding extends StatelessWidget {
           case 2:
             return const Wallet();
           case 3:
-            return const Offer();
+            return const History();
           case 4:
             return const Profile();
           default:

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
 import 'package:some_ride/core/shared/widgets/number_format.dart';
+import 'package:some_ride/features/authentication/services/firebase_services.dart';
+import 'package:some_ride/features/history/presentation/history.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/presentation/available.dart';
 import 'package:some_ride/features/profile/controllers/profile_controller.dart';
@@ -15,6 +17,7 @@ class HomeView extends GetView<ControllerHome> {
   @override
   Widget build(BuildContext context) {
     final newController = Get.find<ProfileController>();
+    final carController = AuthController.instance;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -29,6 +32,7 @@ class HomeView extends GetView<ControllerHome> {
                   () => buildHeader(
                     context,
                     newController.profilePath.value,
+                    carController,
                   ),
                 ),
                 buildAvailableCars(context),
@@ -42,7 +46,7 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget buildHeader(BuildContext context, String image) {
+  Widget buildHeader(BuildContext context, String image, carController) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
@@ -55,28 +59,42 @@ class HomeView extends GetView<ControllerHome> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildAppBar(context, image),
+          _buildAppBar(context, image, carController),
           const SizedBox(height: 22),
-          CarImagesWidget(images: controller.displayCar.images),
+          carController.ongoingList.length == 0
+              ? CarImagesWidget(images: controller.displayCar.images)
+              : CarImageWidget(
+                  image: carController.ongoingList[0].imageUrl,
+                ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CarNameWidget(
-                  model: controller.displayCar.model,
-                  brand: controller.displayCar.brand,
-                ),
+                carController.ongoingList.length == 0
+                    ? CarNameWidget(
+                        model: controller.displayCar.model,
+                        brand: controller.displayCar.brand,
+                      )
+                    : CarNameWidget(
+                        model: carController.ongoingList[0].model,
+                        brand: carController.ongoingList[0].brand,
+                      ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Row(
                     children: [
-                      Text(
-                        "My Recents",
-                        style: GoogleFonts.roboto(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => const History());
+                        },
+                        child: Text(
+                          "My Recents",
+                          style: GoogleFonts.roboto(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -97,7 +115,7 @@ class HomeView extends GetView<ControllerHome> {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, String imagePath) {
+  Widget _buildAppBar(BuildContext context, String imagePath, carController) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -175,14 +193,23 @@ class HomeView extends GetView<ControllerHome> {
                         ),
                       ),
                     ),
-                    Text(
-                      formatSecondOption(controller.displayCar.price),
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
+                    carController.ongoingList.length == 0
+                        ? Text(
+                            formatSecondOption(controller.displayCar.price),
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          )
+                        : Text(
+                            carController.ongoingList[0].price,
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
                   ],
                 ),
               ),

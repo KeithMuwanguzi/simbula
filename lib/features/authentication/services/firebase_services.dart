@@ -11,12 +11,15 @@ class AuthController extends GetxController {
   final databaseReference = FirebaseDatabase.instance.ref().child('cars');
   final databaseReferenceOngoing =
       FirebaseDatabase.instance.ref().child('ongoing_orders');
+  final databaseReferenceHistory =
+      FirebaseDatabase.instance.ref().child('history');
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late Rx<User?> _firebaseUser;
 
   RxList<CarModel> carsList = <CarModel>[].obs;
   RxList<CarOnModel> ongoingList = <CarOnModel>[].obs;
+  RxList<CarOnModel> historyList = <CarOnModel>[].obs;
 
   @override
   void onReady() {
@@ -205,6 +208,34 @@ class AuthController extends GetxController {
           });
         }
         ongoingList.value = fetchCars;
+      });
+
+      databaseReferenceHistory
+          .child(_auth.currentUser!.uid)
+          .onValue
+          .listen((event) {
+        final List<CarOnModel> gottenCars = [];
+        if (event.snapshot.value != null) {
+          Map<dynamic, dynamic>? historyMap =
+              event.snapshot.value as Map<dynamic, dynamic>?;
+          historyMap?.forEach((licensePlate, value) {
+            gottenCars.add(
+              CarOnModel(
+                id: value['licensePlate'],
+                ownerId: value['id'],
+                brand: value['brand'],
+                model: value['model'],
+                transmission: value['transmission'],
+                imageUrl: value['imagePath'] ?? "",
+                maxSpeed: value['maxSpeed'],
+                price: value['price'],
+                availability: value['availability'] ?? "",
+                isPaid: value['isPaid'] ?? false,
+              ),
+            );
+          });
+        }
+        historyList.value = gottenCars;
       });
     } catch (e) {
       errorSnackBar(
