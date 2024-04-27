@@ -27,7 +27,7 @@ class OnGoing extends GetView<ControllerHome> {
             ),
             const SizedBox(height: 15),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 144,
+              height: MediaQuery.of(context).size.height - 200,
               child: Obx(
                 () => ListView.builder(
                   itemCount: carController.ongoingList.length,
