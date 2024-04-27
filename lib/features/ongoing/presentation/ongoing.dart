@@ -55,7 +55,7 @@ class OnGoing extends GetView<OnGoingController> {
 
   Container buildCar(BuildContext context, CarOnModel car) {
     return Container(
-      height: MediaQuery.of(context).size.height / 4,
+      height: MediaQuery.of(context).size.height / 3.5,
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -93,6 +93,19 @@ class OnGoing extends GetView<OnGoingController> {
                         style: GoogleFonts.roboto(
                           fontSize: 20,
                           color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        car.id,
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -158,42 +171,65 @@ class OnGoing extends GetView<OnGoingController> {
                       !car.isPaid
                           ? Row(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.dialog(
-                                      AlertDialog(
-                                        title: const Text('CAR PAYMENT'),
-                                        content: const Text(
-                                            'Payment Methods are yet to be added, for the meantime, please pay cash to the owner on car delivery. Sorry for any inconveniences. Thank you'),
-                                        actions: [
-                                          inAppButton(car, () {}, 'Pay Cash'),
-                                          const SizedBox(width: 35),
-                                          TextButton(
-                                            onPressed: () {
-                                              Get.back();
-                                            },
-                                            child: const Text('Close'),
-                                          ),
-                                        ],
+                                Container(
+                                  height: 40,
+                                  width: 110,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.grey[200],
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: const Offset(0, 3),
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 40,
-                                    width: 110,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.grey[200],
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Get.dialog(
+                                          AlertDialog(
+                                            title: const Text('CAR PAYMENT'),
+                                            content: const Text(
+                                                'Payment Methods are yet to be added, for the meantime, please pay cash to the owner on car delivery. Sorry for any inconveniences. Thank you'),
+                                            actions: [
+                                              inAppButton(
+                                                car,
+                                                () {
+                                                  Get.back();
+                                                  Get.dialog(
+                                                    AlertDialog(
+                                                      title: const Text(
+                                                          'PAYMENT RECEIVED'),
+                                                      content: const Text(
+                                                          'Your Cash Payment has been received, thank you for choosing Simbula for your seemless travel solutions'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Get.back();
+                                                          },
+                                                          child: const Text(
+                                                              'Close'),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                'Pay Cash',
+                                              ),
+                                              const SizedBox(width: 35),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                child: const Text('Close'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                       child: Text(
                                         "PAY",
                                         style: GoogleFonts.roboto(
@@ -228,8 +264,8 @@ class OnGoing extends GetView<OnGoingController> {
                         ),
                         child: Center(
                           child: car.isPaid
-                              ? GestureDetector(
-                                  onTap: () {
+                              ? TextButton(
+                                  onPressed: () {
                                     controller.returnOrder(car.id, car.ownerId);
                                   },
                                   child: Text(
@@ -242,8 +278,30 @@ class OnGoing extends GetView<OnGoingController> {
                                     ),
                                   ),
                                 )
-                              : GestureDetector(
-                                  onTap: () {},
+                              : TextButton(
+                                  onPressed: () {
+                                    Get.dialog(
+                                      AlertDialog(
+                                        title: const Text('CANCEL ORDER'),
+                                        content: const Text(
+                                            'If Continue you will cancel this order and the car will be available again, Do you want to continue?'),
+                                        actions: [
+                                          inAppButton(car, () {
+                                            controller.cancelOrder(
+                                                car.id, car.ownerId);
+                                            Get.back();
+                                          }, 'Continue'),
+                                          const SizedBox(width: 40),
+                                          TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: const Text('Close'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                   child: Text(
                                     "CANCEL",
                                     style: GoogleFonts.roboto(
@@ -275,25 +333,25 @@ class OnGoing extends GetView<OnGoingController> {
     );
   }
 
-  GestureDetector inAppButton(CarOnModel car, onTap, text) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 40,
-        width: 110,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.grey[200],
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // Shadow color
-              spreadRadius: 5, // Spread radius
-              blurRadius: 7, // Blur radius
-              offset: const Offset(0, 3), // Offset
-            ),
-          ],
-        ),
-        child: Center(
+  Container inAppButton(CarOnModel car, onTap, text) {
+    return Container(
+      height: 40,
+      width: 110,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.grey[200],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Shadow color
+            spreadRadius: 5, // Spread radius
+            blurRadius: 7, // Blur radius
+            offset: const Offset(0, 3), // Offset
+          ),
+        ],
+      ),
+      child: Center(
+        child: TextButton(
+          onPressed: onTap,
           child: Text(
             text,
             style: GoogleFonts.roboto(

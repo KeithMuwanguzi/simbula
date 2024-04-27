@@ -64,4 +64,50 @@ class OnGoingController extends GetxController {
       );
     }
   }
+
+  Future<void> cancelOrder(String carId, String ownerId) async {
+    try {
+      await _databaseReference
+          .child('ongoing_orders')
+          .child(uid)
+          .child(carId)
+          .once()
+          .then((event) async {
+        var carData = event.snapshot.value;
+
+        if (carData == null) {
+          errorSnackBar(
+            duration: const Duration(seconds: 10),
+            icon: Icons.error,
+            title: 'Order Doesn\'t exist',
+            text: "That Order doesn't exist",
+          );
+        } else {
+          _databaseReference
+              .child('cars')
+              .child(ownerId)
+              .child(carId)
+              .set(carData);
+          _databaseReference
+              .child('ongoing_orders')
+              .child(uid)
+              .child(carId)
+              .remove();
+          successSnackBar(
+            duration: const Duration(seconds: 3),
+            icon: Icons.check_rounded,
+            title: 'SUCCESS',
+            text: 'Removed successfully',
+          );
+        }
+      });
+    } catch (error) {
+      errorSnackBar(
+        duration: const Duration(seconds: 10),
+        icon: Icons.error,
+        title: 'Failed to clear Order',
+        text: error.toString(),
+      );
+    }
+  }
 }
