@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/features/authentication/services/firebase_services.dart';
 import 'package:some_ride/features/home/controllers/homecont.dart';
 import 'package:some_ride/features/home/model/car_model.dart';
 import 'package:some_ride/features/home/presentation/selected_car.dart';
@@ -15,22 +16,23 @@ class AvailableCars extends GetView<ControllerHome> {
 
   @override
   Widget build(BuildContext context) {
+    final carController = AuthController.instance;
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Column(
           children: [
             AppBarWidget(
-              title: "Available Cars(${controller.carsList.length})",
+              title: "Available Cars(${carController.carsList.length})",
               isBackButton: true,
             ),
             const SizedBox(height: 15),
             SizedBox(
               height: MediaQuery.of(context).size.height - 144,
               child: ListView.builder(
-                itemCount: controller.carsList.length,
+                itemCount: carController.carsList.length,
                 itemBuilder: (context, index) {
-                  final car = controller.carsList[index];
+                  final car = carController.carsList[index];
                   return GestureDetector(
                     onTap: () => Get.to(
                       () => SelectedCar(

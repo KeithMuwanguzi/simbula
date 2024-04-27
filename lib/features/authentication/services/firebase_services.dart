@@ -3,12 +3,16 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:some_ride/core/shared/widgets/export.dart';
+import 'package:some_ride/features/home/model/car_model.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
+  final databaseReference = FirebaseDatabase.instance.ref().child('cars');
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late Rx<User?> _firebaseUser;
+
+  RxList<CarModel> carsList = <CarModel>[].obs;
 
   @override
   void onReady() {
@@ -16,6 +20,7 @@ class AuthController extends GetxController {
     _firebaseUser = Rx<User?>(_auth.currentUser);
     _firebaseUser.bindStream(_auth.authStateChanges());
     ever(_firebaseUser, initialScreen);
+    fetchCars();
   }
 
   void createUserWithEmailAndPassword({
@@ -132,6 +137,44 @@ class AuthController extends GetxController {
 
       await userRef.set(userData);
       Get.back();
+    } catch (e) {
+      errorSnackBar(
+        duration: const Duration(seconds: 2),
+        icon: Icons.error,
+        title: 'Error Occured',
+        text: e.toString(),
+      );
+    }
+  }
+
+  void fetchCars() {
+    try {
+      databaseReference.onValue.listen((event) {
+        final List<CarModel> fetchedCars = [];
+        if (event.snapshot.value != null) {
+          Map<dynamic, dynamic>? carsMap =
+              event.snapshot.value as Map<dynamic, dynamic>?;
+          carsMap?.forEach((userID, userCars) {
+            userCars.forEach((licensePlate, value) {
+              fetchedCars.add(
+                CarModel(
+                  id: value['licensePlate'],
+                  ownerId: value['id'],
+                  brand: value['brand'],
+                  model: value['model'],
+                  transmission: value['transmission'],
+                  imageUrl: value['imagePath'] ?? "",
+                  maxSpeed: value['maxSpeed'],
+                  price: value['price'],
+                  availability: value['availability'] ?? "",
+                ),
+              );
+            });
+          });
+        }
+        carsList.value = fetchedCars;
+        print(fetchedCars);
+      });
     } catch (e) {
       errorSnackBar(
         duration: const Duration(seconds: 2),
