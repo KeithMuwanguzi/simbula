@@ -67,6 +67,7 @@ class ControllerHome extends GetxController {
                 .child(carId)
                 .update({
               'isPaid': false,
+              'timer_value': 0,
             });
 
             _databaseReference

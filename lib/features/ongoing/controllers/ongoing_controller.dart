@@ -80,7 +80,7 @@ class OnGoingController extends GetxController {
         return quantity * daysInWeek * hoursInDay;
       case 'monthly':
         return quantity * daysInMonth * hoursInDay;
-      case 'annualy':
+      case 'annually':
         return quantity * 365 * hoursInDay;
       default:
         throw Exception('Unsupported period: $period');
@@ -153,6 +153,25 @@ class OnGoingController extends GetxController {
     });
   }
 
+  String formatTimerValue(int minutes) {
+    int days = minutes ~/ (60 * 24);
+    int remainingHours = (minutes % (60 * 24)) ~/ 60;
+    int remainingMinutes = minutes % 60;
+
+    String formattedTimerValue = '';
+    if (days > 0) {
+      formattedTimerValue += '$days Days ';
+    }
+    if (remainingHours > 0) {
+      formattedTimerValue += '$remainingHours Hrs ';
+    }
+    if (remainingMinutes > 0) {
+      formattedTimerValue += '$remainingMinutes Mins ';
+    }
+
+    return formattedTimerValue;
+  }
+
   void updateDatabaseTimerValue(int value, databaseReference, String carId) {
     databaseReference
         .child('ongoing_orders')
@@ -183,7 +202,7 @@ class OnGoingController extends GetxController {
               .child('ongoing_orders')
               .child(uid)
               .child(carId)
-              .update({'isPaid': true});
+              .update({'isPaid': true, 'timer_value': 0});
 
           startCountdown(period, _databaseReference, carId);
 

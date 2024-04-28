@@ -56,7 +56,7 @@ class History extends GetView<OnGoingController> {
 
   Container buildCar(BuildContext context, CarOnModel car) {
     return Container(
-      height: MediaQuery.of(context).size.height / 5,
+      height: MediaQuery.of(context).size.height / 4.8,
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

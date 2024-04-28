@@ -59,7 +59,7 @@ class OnGoing extends GetView<OnGoingController> {
 
   Container buildCar(BuildContext context, CarOnModel car) {
     return Container(
-      height: MediaQuery.of(context).size.height / 2.7,
+      height: MediaQuery.of(context).size.height / 2.5,
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class OnGoing extends GetView<OnGoingController> {
       child: Column(
         children: [
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,13 +171,25 @@ class OnGoing extends GetView<OnGoingController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Obx(
-                        () => Text(
-                          "Time: ${controller.remainingMinutes.value.toString()} Minutes to Go",
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: const Color.fromARGB(255, 24, 21, 189),
-                          ),
+                      Text(
+                        "Time Left: ",
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${controller.formatTimerValue(car.timerValue)} ",
+                        style: GoogleFonts.roboto(
+                          fontSize: 15,
+                          color: car.timerValue < 100
+                              ? Colors.red
+                              : const Color.fromARGB(255, 24, 21, 189),
                         ),
                       ),
                     ],
@@ -191,7 +203,7 @@ class OnGoing extends GetView<OnGoingController> {
                               children: [
                                 Container(
                                   height: 40,
-                                  width: 110,
+                                  width: 70,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
                                     color: Colors.grey[200],
