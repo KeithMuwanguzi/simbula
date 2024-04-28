@@ -44,7 +44,7 @@ class _CarPoolHomeState extends State<CarPoolHome> {
 
   void makeSuggestion({required String input}) async {
     String request =
-        '$groundURL?input=$input&key=$googleApiKey&sessiontoken=$tokenForSession';
+        '$groundURL?input=$input&components=country:ug&key=$googleApiKey&sessiontoken=$tokenForSession';
     var response = await http.get(Uri.parse(request));
     if (response.statusCode == 200) {
       setState(() {
@@ -138,82 +138,125 @@ class _CarPoolHomeState extends State<CarPoolHome> {
     );
   }
 
-  Container searchField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
+  Widget searchField() {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5,
+                spreadRadius: 1,
               ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.location_on,
+                color: Colors.grey,
+              ),
+              const SizedBox(width: 10),
               Expanded(
-                child: TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'Search for a location',
-                    border: InputBorder.none,
+                child: Obx(
+                  () => Text(
+                    controller.address.value,
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                   ),
-                  onSubmitted: (value) {
-                    makeSuggestion(input: value);
-                    setState(() {});
-                  },
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          listofPlaces.isEmpty
-              ? const SizedBox()
-              : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: listofPlaces.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        listofPlaces[index]['description'],
-                        style: GoogleFonts.roboto(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        hintText: 'Where Do you want to Go?',
+                        border: InputBorder.none,
                       ),
-                      onTap: () async {
-                        List<Location> location = await locationFromAddress(
-                            listofPlaces[index]['description']);
-                        controller.updateDestinationMarker(
-                          LatLng(
-                              location.last.latitude, location.last.longitude),
-                        );
-                        controller.changeDestination(
-                          LatLng(
-                              location.last.latitude, location.last.longitude),
-                        );
-                        controller.getPolylinePoints().then(
-                              (value) => getPolyfromPoints(value),
-                            );
-                        _searchController.clear();
+                      onSubmitted: (value) {
+                        makeSuggestion(input: value);
                         setState(() {});
                       },
-                    );
-                  },
-                ),
-        ],
-      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              listofPlaces.isEmpty
+                  ? const SizedBox()
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: listofPlaces.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(
+                              listofPlaces[index]['description'],
+                              style: GoogleFonts.roboto(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                            onTap: () async {
+                              List<Location> location =
+                                  await locationFromAddress(
+                                      listofPlaces[index]['description']);
+                              controller.updateDestinationMarker(
+                                LatLng(location.last.latitude,
+                                    location.last.longitude),
+                              );
+                              controller.changeDestination(
+                                LatLng(location.last.latitude,
+                                    location.last.longitude),
+                              );
+                              controller.getPolylinePoints().then(
+                                    (value) => getPolyfromPoints(value),
+                                  );
+                              _searchController.clear();
+                              setState(() {});
+                            },
+                          ),
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

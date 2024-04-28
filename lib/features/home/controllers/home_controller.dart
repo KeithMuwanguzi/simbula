@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,6 +10,7 @@ import '../widgets/bottom_item.dart';
 
 class HomeController extends GetxController {
   LatLng userLocation = const LatLng(0, 0);
+  var address = ''.obs;
   var loading = true.obs;
 
   Rx<LatLng> destination = const LatLng(0, 0).obs;
@@ -65,6 +67,18 @@ class HomeController extends GetxController {
       desiredAccuracy: LocationAccuracy.high,
     );
     userLocation = LatLng(position.latitude, position.longitude);
+    getLocationName();
+  }
+
+  void getLocationName() async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        userLocation.latitude, userLocation.longitude);
+
+    if (placemarks.isNotEmpty) {
+      address.value = placemarks.first.name ?? '';
+      address.value += ' ';
+      address.value += placemarks.last.name ?? '';
+    }
   }
 
   GoogleMapController? mapController;
