@@ -22,9 +22,11 @@ class AvailableCars extends GetView<ControllerHome> {
       body: SafeArea(
         child: Column(
           children: [
-            AppBarWidget(
-              title: "Available Cars(${carController.carsList.length})",
-              isBackButton: true,
+            Obx(
+              () => AppBarWidget(
+                title: "Available Cars(${carController.carsList.length})",
+                isBackButton: true,
+              ),
             ),
             const SizedBox(height: 15),
             SizedBox(

@@ -23,7 +23,7 @@ class History extends GetView<OnGoingController> {
           children: [
             const AppBarWidget(
               title: "Previous Orders",
-              isBackButton: false,
+              isBackButton: true,
             ),
             const SizedBox(height: 15),
             SizedBox(

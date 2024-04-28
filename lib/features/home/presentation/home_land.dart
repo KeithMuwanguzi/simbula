@@ -12,8 +12,7 @@ class HomeLanding extends StatelessWidget {
   HomeLanding({super.key});
 
   final HomeController controller = Get.find<HomeController>();
-  final onGoingController =
-      Get.lazyPut<OnGoingController>(() => OnGoingController());
+  final onGoingController = Get.put(OnGoingController());
 
   @override
   Widget build(BuildContext context) {

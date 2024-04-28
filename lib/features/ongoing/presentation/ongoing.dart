@@ -28,24 +28,28 @@ class OnGoing extends GetView<OnGoingController> {
             const SizedBox(height: 15),
             SizedBox(
               height: MediaQuery.of(context).size.height - 200,
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: carController.ongoingList.length,
-                  itemBuilder: (context, index) {
-                    final car = carController.ongoingList[index];
-                    return GestureDetector(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 5,
-                        ),
-                        child: buildCar(context, car),
+              child: carController.ongoingList.isNotEmpty
+                  ? Obx(
+                      () => ListView.builder(
+                        itemCount: carController.ongoingList.length,
+                        itemBuilder: (context, index) {
+                          final car = carController.ongoingList[index];
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                                vertical: 5,
+                              ),
+                              child: buildCar(context, car),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    )
+                  : const Center(
+                      child: Text('No OnGoing Orders'),
+                    ),
             )
           ],
         ),
@@ -198,6 +202,10 @@ class OnGoing extends GetView<OnGoingController> {
                                               inAppButton(
                                                 car,
                                                 () {
+                                                  controller.payOrder(
+                                                    car.id,
+                                                    car.ownerId,
+                                                  );
                                                   Get.back();
                                                   Get.dialog(
                                                     AlertDialog(
