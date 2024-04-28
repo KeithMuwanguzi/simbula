@@ -203,6 +203,7 @@ class AuthController extends GetxController {
                 price: value['price'],
                 availability: value['availability'] ?? "",
                 isPaid: value['isPaid'] ?? false,
+                timerValue: value['timer_value'] ?? 0,
               ),
             );
           });
@@ -231,6 +232,7 @@ class AuthController extends GetxController {
                 price: value['price'],
                 availability: value['availability'] ?? "",
                 isPaid: value['isPaid'] ?? false,
+                timerValue: value['timer_value'] ?? 0,
               ),
             );
           });

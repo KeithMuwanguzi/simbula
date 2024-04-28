@@ -59,7 +59,7 @@ class OnGoing extends GetView<OnGoingController> {
 
   Container buildCar(BuildContext context, CarOnModel car) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3.5,
+      height: MediaQuery.of(context).size.height / 2.7,
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class OnGoing extends GetView<OnGoingController> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +140,7 @@ class OnGoing extends GetView<OnGoingController> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -168,7 +168,21 @@ class OnGoing extends GetView<OnGoingController> {
                             ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(
+                        () => Text(
+                          "Time: ${controller.remainingMinutes.value.toString()} Minutes to Go",
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: const Color.fromARGB(255, 24, 21, 189),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -205,6 +219,7 @@ class OnGoing extends GetView<OnGoingController> {
                                                   controller.payOrder(
                                                     car.id,
                                                     car.ownerId,
+                                                    car.availability,
                                                   );
                                                   Get.back();
                                                   Get.dialog(

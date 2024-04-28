@@ -9,6 +9,7 @@ class CarOnModel {
   final String price;
   final String availability;
   final bool isPaid;
+  final int timerValue;
 
   CarOnModel({
     required this.id,
@@ -21,6 +22,7 @@ class CarOnModel {
     required this.price,
     required this.availability,
     required this.isPaid,
+    required this.timerValue,
   });
 
   factory CarOnModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class CarOnModel {
       price: json['price'] ?? '',
       availability: json['availability'] ?? '',
       isPaid: json['isPaid'] ?? false,
+      timerValue: json['timer_value'] ?? 0,
     );
   }
 
@@ -50,6 +53,7 @@ class CarOnModel {
       "price": price,
       "availability": availability,
       "isPaid": isPaid,
+      "timer_value": timerValue,
     };
   }
 }
