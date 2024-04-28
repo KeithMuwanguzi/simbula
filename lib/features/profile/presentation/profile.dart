@@ -34,7 +34,7 @@ class Profile extends GetView<ProfileController> {
             onPressed: () async {
               Get.bottomSheet(
                 Container(
-                  height: MediaQuery.of(context).size.height / 7,
+                  height: MediaQuery.of(context).size.height / 6.5,
                   width: double.infinity,
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   color: Colors.grey[200],
@@ -370,7 +370,7 @@ class EmptyAvator extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Colors.white,
-      radius: 80,
+      radius: 60,
       child: InkWell(
         onTap: () {
           Get.bottomSheet(
@@ -386,12 +386,12 @@ class EmptyAvator extends StatelessWidget {
                     },
                     child: const Icon(
                       Icons.photo,
-                      size: 40,
+                      size: 30,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(
-                    width: 100,
+                    width: 80,
                   ),
                   InkWell(
                     onTap: () {
@@ -410,7 +410,7 @@ class EmptyAvator extends StatelessWidget {
         },
         child: const Icon(
           Icons.add_a_photo,
-          size: 45,
+          size: 35,
           color: Colors.black,
         ),
       ),
